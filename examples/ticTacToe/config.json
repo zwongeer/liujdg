@@ -1,0 +1,33 @@
+ {
+  "players": [
+    {
+      "name": "attack204-0",
+      "id": "attack204-0-no-root",
+      "build": "g++ -std=c++17 p1.cpp -o p1",
+      "run": "./p1",
+      "folder": "data",
+      "basedir": "p1"
+    },
+    {
+      "name": "attack204-1",
+      "id": "attack204-1-no-root",
+      "build": "g++ -std=c++17 p2.cpp -o p2",
+      "run": "./p2",
+      "folder": "data",
+      "basedir": "p2"
+    }
+  ],
+  "judger": {
+    "name": "attack204-self",
+    "id": "at20",
+    "build": "",
+    "run": "./judger",
+    "folder": "data/",
+    "basedir": "./judger"
+  },
+  "config": {
+    "logdir": "./log",
+    "basedir": ".",
+    "timeLimit": 5
+  }
+}

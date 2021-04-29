@@ -1,0 +1,17 @@
+mkdir -p build
+cd build
+cmake .. || exit 1
+make || exit 1
+echo "(root permission required)"
+read -n1 -p "Do you want to install liujdg?[y/n]" answer
+echo
+case $answer in
+Y | y)
+    sudo ./liujdg.install;;
+N | n)
+    echo "not install liujdg"
+    true;;
+*)
+    echo "error choice"
+    exit 1;;
+esac
