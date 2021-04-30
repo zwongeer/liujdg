@@ -1,5 +1,7 @@
 ## 样例说明
-裁判使用`python`编写，玩家的代码用的`C++`~~懒得改了~~
+使用`python3`编写，~~貌似`python2`语法不太一样，代码不改的话不能直接用`python2`跑~~
+
+注意：运行命令可以写`python main.py`，也可以写`./main.py`，但是使用时需要注意`python`的版本，而且如果使用`./main.py`，该文件应该有可执行权限
 
 样例的记录在`sample-log`中：
 
@@ -23,4 +25,5 @@
 3. 发送消息
 
 #### 已知问题:
-使用`python`在`Arch Linux`上可以正常运行，但是在`Ubuntu 20.04`和`Debian 10`上裁判无法正常获取输入，显示使用`python3`则都可以正常运行。（~~`python3`和`python2`的关系？~~）
+使用`python`在`Arch Linux`上可以正常运行，但是在`Ubuntu 20.04`和`Debian 10`会有着奇奇怪怪的输出结果，显式使用`python3`则都可以正常运行。（~~个人感觉是因为`python3`和`python2`的语法不同~~）
+
