@@ -12,6 +12,12 @@
 $ git clone https://github.com/zwongeer/liujdg.git && cd liujdg
 ```
 
+考录到github国内访问较慢，如果你是在刘某人的VPS上构建，可以使用下面的命令，这样应该会快很多
+```bash
+$ git clone https://cdn.aioj.ac/zwongeer/liujdg.git && cd liujdg
+```
+该仓库地址只能通过刘某人的VPS访问
+
 ```bash
 $ mkdir build && cd build
 $ cmake .. && make
