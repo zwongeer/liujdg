@@ -1,0 +1,322 @@
+
+send 1
+1
+continue 1
+send 1
+1 6 3
+send 1
+1
+continue 1
+send 1
+1 11 7
+send 1
+1
+continue 1
+send 1
+1 4 5
+send 1
+1
+continue 1
+send 1
+1 0 3
+send 1
+1
+continue 1
+send 1
+1 14 0
+send 1
+1
+continue 1
+send 1
+1 12 9
+send 1
+1
+continue 1
+send 1
+1 10 9
+send 1
+1
+continue 1
+send 1
+1 18 12
+send 1
+1
+continue 1
+send 1
+1 11 1
+send 1
+1
+continue 1
+send 1
+1 15 7
+send 1
+1
+continue 1
+send 1
+1 12 11
+send 1
+1
+continue 1
+send 1
+1 5 18
+send 1
+1
+continue 1
+send 1
+1 2 3
+send 1
+1
+continue 1
+send 1
+1 2 4
+send 1
+1
+continue 1
+send 1
+1 16 0
+send 1
+1
+continue 1
+send 1
+1 2 0
+send 1
+1
+continue 1
+send 1
+1 0 10
+send 1
+1
+continue 1
+send 1
+1 7 2
+send 1
+1
+continue 1
+send 1
+1 16 7
+send 1
+1
+continue 1
+send 1
+1 5 11
+send 1
+1
+continue 1
+send 1
+1 4 14
+send 1
+1
+continue 1
+send 1
+1 18 11
+send 1
+1
+continue 1
+send 1
+1 5 17
+send 1
+1
+continue 1
+send 1
+1 5 13
+send 1
+1
+continue 1
+send 1
+1 16 1
+send 1
+1
+continue 1
+send 1
+1 2 9
+send 1
+1
+continue 1
+send 1
+1 9 4
+send 1
+1
+continue 1
+send 1
+1 5 12
+send 1
+1
+continue 1
+send 1
+1 7 4
+send 1
+1
+continue 1
+send 1
+1 16 4
+send 1
+1
+continue 1
+send 1
+1 4 15
+send 1
+1
+continue 1
+send 1
+1 5 2
+send 1
+1
+continue 1
+send 1
+1 7 9
+send 1
+1
+continue 1
+send 1
+1 14 6
+send 1
+1
+continue 1
+send 1
+1 9 15
+send 1
+1
+continue 1
+send 1
+1 2 8
+send 1
+1
+continue 1
+send 1
+1 8 4
+send 1
+1
+continue 1
+send 1
+1 4 13
+send 1
+1
+continue 1
+send 1
+1 11 16
+send 1
+1
+continue 1
+send 1
+1 7 18
+send 1
+1
+continue 1
+send 1
+1 11 9
+send 1
+1
+continue 1
+send 1
+1 13 5
+send 1
+1
+continue 1
+send 1
+1 11 14
+send 1
+1
+continue 1
+send 1
+1 17 13
+send 1
+1
+continue 1
+send 1
+1 16 5
+send 1
+1
+continue 1
+send 1
+1 0 17
+send 1
+1
+continue 1
+send 1
+1 3 14
+send 1
+1
+continue 1
+send 1
+1 2 13
+send 1
+1
+continue 1
+send 1
+1 18 0
+send 1
+1
+continue 1
+send 1
+1 10 16
+send 1
+1
+continue 1
+send 1
+1 1 18
+send 1
+1
+continue 1
+send 1
+1 14 5
+send 1
+1
+continue 1
+send 1
+1 3 8
+send 1
+1
+continue 1
+send 1
+1 8 11
+send 1
+1
+continue 1
+send 1
+1 1 7
+send 1
+1
+continue 1
+send 1
+1 5 14
+send 1
+1
+continue 1
+send 1
+1 9 6
+send 1
+1
+continue 1
+send 1
+1 13 13
+send 1
+1
+continue 1
+send 1
+1 17 12
+send 1
+1
+continue 1
+send 1
+1 4 6
+send 1
+1
+continue 1
+send 1
+1 13 3
+send 1
+1
+continue 1
+send 1
+1 3 12
+send 1
+1
+continue 1
+send 1
+1 9 5
+send 1
+1
+continue 1
+win 1
+1 0Good!
+
