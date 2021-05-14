@@ -64,6 +64,7 @@ inline void winAndScore(int thewinner) {
       if (i == thewinner) std::cout << "1 ";
       else std::cout << "0";
     }
+    std::cout << std::endl;
     // give comments(optional)
     std::cout << "Good!" << std::endl;
 }

@@ -318,5 +318,6 @@ send 1
 1
 continue 1
 win 1
-1 0Good!
+1 0
+Good!
 
