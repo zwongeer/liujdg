@@ -275,6 +275,12 @@ void LGame::wait() {
     }
 }
 
+void LGame::waitAndKill() {
+    this->wait();
+    for (auto& v : processes)
+        v.kill();
+}
+
 bool LGame::isAllRunning() {
     for (auto& v : processes)
         if (!v.isRunning()) return false;

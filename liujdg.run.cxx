@@ -53,9 +53,9 @@ int main(int argc, char const *argv[]) {
     } catch (std::exception& err) {
         std::cerr << "[runtime_error]:" << err.what() << std::endl;
         errorLogFile << "[runtime_error]:" << err.what() << std::endl;
-        pgame->wait();
+        pgame->waitAndKill();
         LExit(1);
     }
-    pgame->wait();
+    pgame->waitAndKill();
     LExit(0);
 }

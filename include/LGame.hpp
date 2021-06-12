@@ -35,4 +35,5 @@ struct LGame {
     void writeResultToFile();
     bool isAllRunning();
     void wait();
+    void waitAndKill();
 };

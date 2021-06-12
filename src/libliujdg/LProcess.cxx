@@ -5,6 +5,7 @@
 #include <sys/prctl.h>
 #include <unistd.h>
 
+
 #include <cstdlib>
 #include <cstring>
 #include <cstdio>
@@ -45,8 +46,8 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
         dup2(pipestdoutfd[1], STDERR_FILENO);
         
         // ask kernel to deliver SIGTERM in case the parent dies
-        prctl(PR_SET_PDEATHSIG, SIGTERM);
-        
+        prctl(PR_SET_PDEATHSIG, SIGTERM); // it is weird that this seems not to work
+
         // run the program
         execl("/bin/sh", "/bin/sh", "-c", command.c_str(), nullptr);
         
