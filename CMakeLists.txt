@@ -27,8 +27,8 @@ target_include_directories(libliujdg
 	PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 		$<INSTALL_INTERFACE:include>
-	PRIVATE 
 		${CMAKE_CURRENT_BINARY_DIR}/generated
+	PRIVATE
 		src/libliujdg
 )
 
@@ -36,19 +36,10 @@ target_include_directories(libliujdg
 add_executable(liujdg.run liujdg.run.cxx)
 
 target_link_libraries(liujdg.run libliujdg)
-target_include_directories(liujdg.run PUBLIC
-"${PROJECT_BINARY_DIR}"
-"${PROJECT_SOURCE_DIR}/include"
-)
 
 add_executable(liujdg.install liujdg.install.cxx)
 
 target_link_libraries(liujdg.install libliujdg)
-                          
-target_include_directories(liujdg.install PUBLIC
-"${PROJECT_BINARY_DIR}"
-"${PROJECT_SOURCE_DIR}/include"
-)
 
 # install(TARGETS liujdg.run
 # 		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

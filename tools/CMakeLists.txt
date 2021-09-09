@@ -9,12 +9,12 @@ function(add_file_cxx exec_name)
 
     add_executable(${exec_name} ${exec_name}.cxx)
     # message("Name = " &{exec_name})
-	# message("LINK LIBS = " ${LIBS})
+    # message("LINK LIBS = " ${LIBS})
     target_link_libraries(${exec_name} ${LIBS})
-    target_include_directories(${exec_name} PRIVATE
-        "${PROJECT_BINARY_DIR}"
-        "${PROJECT_SOURCE_DIR}/include"
-    )
+    # target_include_directories(${exec_name} PRIVATE
+    #     "${PROJECT_BINARY_DIR}"
+    #     "${PROJECT_SOURCE_DIR}/include"
+    # )
 endfunction()
 
 add_file_cxx(liujdg.true)
@@ -23,9 +23,7 @@ set(LIBS libliujdg pthread)
 add_file_cxx(liujdg.test ${LIBS})
 add_file_cxx(liujdg.build ${LIBS})
 
-# fmtlib
 find_package(fmt REQUIRED)
-# RESTinio
 find_package(restinio REQUIRED)
 set(LIBS restinio::restinio ${LIBS})
 add_file_cxx(liujdg.deamon ${LIBS})
