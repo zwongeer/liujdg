@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 
-#include "rapidjson/document.h"
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/stringbuffer.h"
+#include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/stringbuffer.h>
 
 struct LPerson {
     static constexpr const char* NAME = "name";

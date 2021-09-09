@@ -5,7 +5,7 @@
 # CMake required version
 cmake_minimum_required(VERSION 3.10)
 
-project(liujdg.run VERSION "0.0.1")
+project(liujdg VERSION "0.0.1")
 
 # library name
 set(LIBLIUJDG libliujdg)

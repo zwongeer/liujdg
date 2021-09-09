@@ -7,15 +7,17 @@
 #include "LProcess_container.hpp"
 
 struct LGame {
-    static constexpr const char* SEND = "send";
-    static constexpr const char* WIN = "win";
-    static constexpr const char* DRAW = "draw";
-    static constexpr const char* CONTINUE = "continue";
+    static constexpr const char* SEND = "#send";
+    static constexpr const char* WIN = "#win";
+    static constexpr const char* DRAW = "#draw";
+    static constexpr const char* CONTINUE = "#continue";
+    static constexpr const char* LOG = "#log";
 
     LGameInfo gameInfo;
     LGameResult gameResult;
     std::vector<LProcess_container> processes;
     std::vector<std::ofstream> outFiles; // store the stdout of all processes
+    std::ofstream judger_logFile;
     std::vector<int> peopleIndex; // random indexes for players
     std::vector<int> indexForJudger; // get the id of process from index
     bool isFinished;

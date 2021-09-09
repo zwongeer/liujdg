@@ -13,7 +13,7 @@
 #include "Lfunc.hpp"
 #include "LGameInfo.hpp"
 
-LGameInfo::LGameInfo(const std::string& json) {
+LGameInfo::LGameInfo(const std::string& json, bool noCheck) {
     std::ifstream in(json.c_str());
     if (!in.good()) throw std::runtime_error("Cannot open the json file `" + json + '`');
 
@@ -26,10 +26,14 @@ LGameInfo::LGameInfo(const std::string& json) {
     int ch;
     while (ch = in.get(), ch != EOF)
         data += char(ch);
+    in.close();
+    fromString(data, noCheck);
+}
 
+void LGameInfo::fromString(const std::string& str, bool noCheck) {
     rapidjson::Document doc;
     bool flag;
-    if (doc.Parse(data.c_str()).HasParseError())
+    if (doc.Parse(str.c_str()).HasParseError())
         throw std::runtime_error("Bad JSON file");
     if (doc.HasMember(JUDGER) && doc[JUDGER].IsObject()) {
         persons.push_back(LPerson::readFromJSON(doc[JUDGER], &flag));
@@ -47,6 +51,7 @@ LGameInfo::LGameInfo(const std::string& json) {
     else throw std::runtime_error("Cannot find config from json");
 
     // check the build and run command
+    if (noCheck == false)
     for (int i = 0; i < getPeopleNum(); ++i) {
         if (persons[i].build != "" && persons[i].build != "."  && !LcheckCommand(persons[i].build))
             throw std::runtime_error("Invalid build command for user:" + persons[i].name + ",id:" + persons[i].id);

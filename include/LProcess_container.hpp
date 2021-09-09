@@ -4,12 +4,17 @@
 #include <future>
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "LProcess.hpp"
 
+typedef LProcess::Status LPStatus;
+
 struct LProcess_container { 
+    static constexpr int LENGTHLIMIT = 4096;
+
     LProcess* process;
     int limit;
     std::mutex mutex;
@@ -28,14 +33,18 @@ struct LProcess_container {
 
     int getpid();
     void kill();
-    int wait();
+    LPStatus wait();
     std::ostream& stdin();
     std::istream& stdout();
-    int getReturnValue(); // return -1024 when getting an error
+    std::istream& stderr();
+    std::optional<int> getReturnValue();
+    std::optional<int> getSignal(); // get the received signal
     void flush();
     bool isRunning();
     void lock();
     void unlock();
+
+    bool wait_or_kill(int lim); // kill the process if it doesn't exist in the time limit, return true if it exists normally
 
     void waitEventList(); // not implentmented
 };

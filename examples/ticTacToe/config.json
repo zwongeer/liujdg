@@ -20,7 +20,7 @@
   "judger": {
     "name": "attack204-self",
     "id": "at20",
-    "build": "",
+    "build": "g++ -std=c++17 judger.cpp -o judger",
     "run": "./judger",
     "folder": "data/",
     "basedir": "./judger"
@@ -28,6 +28,8 @@
   "config": {
     "logdir": "./log",
     "basedir": ".",
-    "timeLimit": 5
+    "timeLimit": 5,
+    "buildTimeLimit": 20,
+    "errorLog": ""
   }
 }

@@ -20,22 +20,25 @@ int main() {
     out << playerNum << endl;
     out << path << endl;
     
-    cout << "send 1" << endl;
+    cout << "#send 1" << endl;
     cout << "1" << endl;
-    cout << "continue 1" << endl;
+    cout << "#continue 1" << endl;
 
     int p;
     string ret;
     
     cin >> p >> ret;
 
-    cout << "send 2" << endl;
+    cout << "#send 2" << endl;
     cout << "2" << endl;
-    cout << "continue 2" << endl;
+    cout << "#continue 2" << endl;
+    
+    cout << "#log" << endl;
+    cout << "test log" << endl;
     
     cin >> p >> ret;
     
-    cout << "win 1" << endl;
+    cout << "#win 1" << endl;
     cout << "1 0" << endl; // scores
     cout << "MLG pro" << endl; // comments (optional)
 

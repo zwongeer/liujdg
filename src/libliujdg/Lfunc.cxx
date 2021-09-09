@@ -51,7 +51,24 @@ void LfuncInit() {
     srand(time(nullptr));
 }
 
+std::string LreadFile(std::istream& in, size_t len) {
+    std::string data = "";
+    data.reserve(len);
+    int ch;
+    while (ch = in.get(), ch != EOF)
+        data += char(ch);
+    return data;
+}
+
+std::optional<std::string> LgetFilePath(const std::string& file) {
+    namespace fs = std::filesystem;
+    if (fs::exists(file) && fs::status(file).type() != fs::file_type::directory)
+        return fs::path(file).parent_path().string();
+    return {};
+}
+
 std::string_view LgetCommand(const char* command) {
+    if (command[0] != '#') return {};
     size_t pos;
     size_t len = std::strlen(command);
     for (pos = 0; pos < len; ++pos) {

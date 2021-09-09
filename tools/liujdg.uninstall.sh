@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 if [ `whoami` = "root" ];then
 	rm -f /usr/local/bin/liujdg.*
 	echo "Success"

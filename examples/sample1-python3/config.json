@@ -21,13 +21,15 @@
     "name": "attack204-self",
     "id": "at20",
     "build": "",
-    "run": "python3 judger.py",
+    "run": "./judger.py",
     "folder": "data/",
-    "basedir": "./judger"
+    "basedir": "judger"
   },
   "config": {
     "logdir": "./log",
     "basedir": ".",
-    "timeLimit": 3
+    "timeLimit": 5,
+    "buildTimeLimit": 20,
+    "errorLog": ""
   }
 }

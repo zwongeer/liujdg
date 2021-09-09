@@ -244,21 +244,24 @@ int main() {
     // open saved data
     ofstream out((path + "fk.txt").c_str());
     
-    out << "kiao" << endl;
+    out << "giao" << endl;
     out << playerNum << endl << path << endl;
-    cout << "continue 1" << endl;
+    cout << "#continue 1" << endl;
 
     int id, x, y;
-    while (cin.peek() != '#', cin >> id >> x >> y) {
+    while (cin.peek() != '#' && cin >> id >> x >> y) {
     	out << "giao" << endl;
     	if (tictactoe.isValidMove(x, y)) {
     		tictactoe.makeMove(x, y);
+    		// log the step
+    		cout << "#log" << endl;
+    		cout << currentPlayer << " " << x << " " << y << endl;
     		currentPlayer = switchPlayer(currentPlayer);
-    		cout << "send " << currentPlayer << endl;
+    		cout << "#send " << currentPlayer << endl;
     		cout << x << " " << y << endl;
             if (tictactoe.isDone()) {
                 if (tictactoe.getWinner() != '_') {
-                    cout << "win " << getCurrentPlayer(tictactoe.getWinner()) << endl;
+                    cout << "#win " << getCurrentPlayer(tictactoe.getWinner()) << endl;
                     // give scores
                     for (int i = 1; i <= 2; ++i) {
                         if (i == getCurrentPlayer(tictactoe.getWinner()))
@@ -271,7 +274,7 @@ int main() {
                     cout << "Good!" << endl;
                     break;
                 } else {
-                    cout << "draw" << endl;
+                    cout << "#draw" << endl;
 
                     // give scores
                     for (int i = 1; i <= 2; ++i)
@@ -285,10 +288,10 @@ int main() {
                     break;
                 }
             }
-    		cout << "continue " << currentPlayer << endl;
+    		cout << "#continue " << currentPlayer << endl;
     	} else {
     		currentPlayer = switchPlayer(currentPlayer);
-    		cout << "win " << currentPlayer << endl;
+    		cout << "#win " << currentPlayer << endl;
     		
             // give scores
             for (int i = 1; i <= 2; ++i) {

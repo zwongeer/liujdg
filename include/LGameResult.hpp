@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "rapidjson/document.h"
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/stringbuffer.h"
+#include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/stringbuffer.h>
 
 #include "LPlayerResult.hpp"
 

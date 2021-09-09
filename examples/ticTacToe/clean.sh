@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 rm -rf judger/data
 rm -f judger/judger
 rm -rf p1/data

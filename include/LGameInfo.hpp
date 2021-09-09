@@ -15,10 +15,11 @@ struct LGameInfo {
     std::vector<LPerson> persons; // note that 0 are reserved for the judger
     Ljdgconfig config;
     
-    LGameInfo(const std::string& json);
+    LGameInfo(const std::string& json, bool noCheck = false); // check build command and run command
     LGameInfo() = default;
     LGameInfo(LGameInfo&&) = default;
     LGameInfo& operator = (LGameInfo&&) = default;
 
     int getPeopleNum();
+    void fromString(const std::string& str, bool noCheck = false);
 };

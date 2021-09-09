@@ -9,9 +9,9 @@
     {
       "name": "attack204-1",
       "id": "attack204-1-no-root",
-      "scores": 1,
-      "isWinner": true
+      "scores": 0,
+      "isWinner": false
     }
   ],
-  "comments": "Good!"
+  "comments": "MLG pro"
 }

@@ -2,9 +2,9 @@
 #include <cstdint>
 #include <string>
 
-#include "rapidjson/document.h"
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/stringbuffer.h"
+#include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/stringbuffer.h>
 
 struct LPlayerResult {
     static constexpr const char* NAME = "name";

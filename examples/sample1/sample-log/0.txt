@@ -1,9 +1,11 @@
-send 1
+#send 1
 1
-continue 1
-send 2
+#continue 1
+#send 2
 2
-continue 2
-win 1
+#continue 2
+#log
+test log
+#win 1
 1 0
 MLG pro

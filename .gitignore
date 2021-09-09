@@ -33,5 +33,4 @@ lib/
 *.app
 
 # Others
-/.vscode
 /build

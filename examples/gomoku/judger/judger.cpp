@@ -58,7 +58,7 @@ inline int switchPlayer(int p) {
   return p == 1 ? 2 : 1;
 }
 inline void winAndScore(int thewinner) {
-	std::cout << "win " << thewinner << std::endl;
+	std::cout << "#win " << thewinner << std::endl;
     // score the players
     for (int i = 1; i <= 2; ++i) {
       if (i == thewinner) std::cout << "1 ";
@@ -78,9 +78,9 @@ int main(int argc, const char* argv[]) {
   // assert(n == 2);
   std::cout << std::endl;
   int nowplayer = 1;
-  std::cout << "send " << nowplayer << std::endl;
+  std::cout << "#send " << nowplayer << std::endl;
   std::cout << nowplayer << std::endl;
-  std::cout << "continue " << nowplayer << std::endl;
+  std::cout << "#continue " << nowplayer << std::endl;
   while (true) {
     // read player operation
     int playerId;
@@ -93,6 +93,7 @@ int main(int argc, const char* argv[]) {
     }
     // take the operation
     board[x][y] = nowplayer;
+
     p[nowplayer - 1].push_back(std::make_pair(x, y));
     // check if somebody wins
     int winner = checkWin();
@@ -102,18 +103,22 @@ int main(int argc, const char* argv[]) {
     }
     // check if ther e is no place to put chess anymore
     if (p[0].size() + p[1].size() == 19 * 19) {
-      std::cout << "draw" << std::endl;
+      std::cout << "#draw" << std::endl;
       std::cout << "0 0" << std::endl;
       return 0;
     }
+    // log the step
+    std::cout << "#log" << std::endl;
+    std::cout << nowplayer << " " << x << " " << y << std::endl;
+
     // send message to another player
-    std::cout << "send " << switchPlayer(nowplayer) << std::endl;
+    std::cout << "#send " << switchPlayer(nowplayer) << std::endl;
     std::cout << nowplayer << " " << x << " " << y << std::endl;
     
     // continue playing
     nowplayer = switchPlayer(nowplayer);
-    std::cout << "send " << nowplayer << std::endl;
+    std::cout << "#send " << nowplayer << std::endl;
   	std::cout << nowplayer << std::endl;
-    std::cout << "continue " << nowplayer << std::endl;
+    std::cout << "#continue " << nowplayer << std::endl;
   }
 }

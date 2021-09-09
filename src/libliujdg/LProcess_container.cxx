@@ -2,7 +2,6 @@
 #include <chrono>
 #include <future>
 #include <stdexcept>
-#include <thread>
 #include <utility>
 
 #include <ext/stdio_filebuf.h>
@@ -23,35 +22,9 @@ LProcess_container::LProcess_container(const std::string& str, int lim, const st
     eventList.clear();
 }
 
-
-// used to flush stdin when reading message from stdout
-struct Attack204_SmartFlushThread {
-    pthread_t thrd;
-
-    static void* flushStdin(void* data) {
-        std::ostream& out = *reinterpret_cast<std::ostream*>(data);
-        for (;;) {
-            out.flush();
-            std::this_thread::sleep_for(std::chrono::seconds(1));
-            pthread_testcancel();
-        }
-        return nullptr;
-    }
-
-    Attack204_SmartFlushThread() = delete;
-    Attack204_SmartFlushThread(std::ostream* out) {
-        pthread_create(&thrd, nullptr, flushStdin, out);
-    }
-    ~Attack204_SmartFlushThread() {
-        pthread_cancel(thrd);
-    }
-};
-
 bool LProcess_container::wait_for_getline(char* ret, int seconds) {
     if (seconds < 0) seconds = limit;
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
-    
-    Attack204_SmartFlushThread flushThread(&process->stdin());
 
     // to get the history messages
     if (!eventList.empty()) {
@@ -74,22 +47,22 @@ bool LProcess_container::wait_for_getline(char* ret, int seconds) {
             std::async([&]()->std::pair<std::string, bool>{
                 bool lengthLimitExceeded = false;
                 mutex.lock();
-                char* pstr = new char[4096];
+                char* pstr = new char[LENGTHLIMIT + 1];
                 ssize_t readSize = 0;
                 char ch;
                 while (::read(process->fd_from_child, &ch, 1) != 0 && ch != '\n') {
                     pstr[readSize++] = ch;
-                    if (readSize == 4095) {
+                    if (readSize == LENGTHLIMIT) {
                         lengthLimitExceeded = true;
                         mutex.unlock();
-                        delete pstr;
+                        delete[] pstr;
                         return {"", false};
                     }
                 }
                 pstr[readSize] = '\0';
                 std::string ret = pstr;
                 mutex.unlock();
-                delete pstr;
+                delete[] pstr;
                 return {ret, lengthLimitExceeded};
             })
         );
@@ -127,22 +100,22 @@ bool LProcess_container::hasNewMessage() {
                 bool lengthLimitExceeded = false;
                 mutex.lock();
                 process->flush();
-                char* pstr = new char[4096];
+                char* pstr = new char[LENGTHLIMIT + 1];
                 ssize_t readSize = 0;
                 char ch;
                 while (::read(process->fd_from_child, &ch, 1) != 0 && ch != '\n') {
                     pstr[readSize++] = ch;
-                    if (readSize == 4095) {
+                    if (readSize == LENGTHLIMIT) {
                         lengthLimitExceeded = true;
                         mutex.unlock();
-                        delete pstr;
+                        delete[] pstr;
                         return {"", false};
                     }
                 }
                 pstr[readSize] = '\0';
                 std::string ret = pstr;
                 mutex.unlock();
-                delete pstr;
+                delete[] pstr;
                 return {ret, lengthLimitExceeded};
             })
         );
@@ -171,6 +144,20 @@ LProcess_container& LProcess_container::operator = (LProcess_container&& rhs) {
     return *this;
 }
 
+bool LProcess_container::wait_or_kill(int lim) {
+    if (!process) throw std::runtime_error("LProcess_container is not initialized");
+
+    auto fu = std::future<void> (std::async([&](){
+        this->wait();
+    }));
+    std::future_status sta = fu.wait_for(std::chrono::seconds(lim));
+    if (sta != std::future_status::ready) {
+        ::kill(getpid(), SIGKILL);
+        return false;
+    }
+    return true;
+}
+
 LProcess_container::~LProcess_container(){
     delete process;
 }
@@ -180,7 +167,7 @@ int LProcess_container::getpid() {
     return process->getpid();
 }
 
-int LProcess_container::wait() {
+LProcess::Status LProcess_container::wait() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
     return process->wait();
 }
@@ -191,7 +178,10 @@ void LProcess_container::kill() {
 
 std::ostream& LProcess_container::stdin() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
-    if (!isRunning()) throw std::runtime_error("LProcess_container is not running");
+    // if (!isRunning()) throw std::runtime_error("LProcess_container is not running");
+    // set bad bit instead of throw
+    if (!isRunning())
+        process->stdin().clear(std::ios::badbit);
     return process->stdin();
 }
 
@@ -200,14 +190,25 @@ std::istream& LProcess_container::stdout() {
     return process->stdout();
 }
 
+std::istream& LProcess_container::stderr() {
+    if (!process) throw std::runtime_error("LProcess_container is not initialized");
+    return process->stderr();
+}
+
 void LProcess_container::flush() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
     process->flush();
 }
 
-int LProcess_container::getReturnValue() {
+
+std::optional<int> LProcess_container::getReturnValue() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
     return process->getReturnValue();
+}
+
+std::optional<int> LProcess_container::getSignal() {
+    if (!process) throw std::runtime_error("LProcess_container is not initialized");
+    return process->getSignal();
 }
 
 bool LProcess_container::isRunning() {

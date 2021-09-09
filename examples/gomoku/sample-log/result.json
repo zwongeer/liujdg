@@ -3,14 +3,14 @@
     {
       "name": "attack204-0",
       "id": "attack204-0-no-root",
-      "scores": 1,
-      "isWinner": true
+      "scores": 0,
+      "isWinner": false
     },
     {
       "name": "attack204-1",
       "id": "attack204-1-no-root",
-      "scores": 0,
-      "isWinner": false
+      "scores": 1,
+      "isWinner": true
     }
   ],
   "comments": "Good!"

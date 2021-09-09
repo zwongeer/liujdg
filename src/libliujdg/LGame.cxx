@@ -11,6 +11,10 @@
 #include "LGame.hpp"
 
 LGame::LGame(const std::string& json):gameInfo(json) {
+    // switch current working path to the json file's
+    std::optional<std::string> path = LgetFilePath(json);
+    if (path.has_value()) chdir(path.value().c_str());
+
     // reserve space for indexes
     peopleIndex.resize(gameInfo.getPeopleNum());
     indexForJudger.resize(gameInfo.getPeopleNum());
@@ -22,15 +26,22 @@ LGame::LGame(const std::string& json):gameInfo(json) {
             outFiles[i].open("/dev/null");
         if (!outFiles[i]) throw std::runtime_error("Cannot open the output files");
     }
+    if (gameInfo.config.logdir != "") judger_logFile.open((gameInfo.config.logdir + "judger_log.txt").c_str());
+    else judger_logFile.open("/dev/null");
 
-    // generate random id for players
+    
     for (int i = 0; i < peopleIndex.size(); ++i)
         peopleIndex[i] = i;
+
+    // generate random id for players
     std::random_shuffle(peopleIndex.begin() + 1, peopleIndex.end());
 
-    // 
+    // map the id
     for (int i = 0; i < peopleIndex.size(); ++i)
         indexForJudger[ peopleIndex[i] ] = i;
+    
+    for (int i = 1; i < peopleIndex.size(); ++i)
+        judger_logFile << R"({"player_realid": )" << i << R"(, "random_id" : )" << peopleIndex[i] << "}\n";
 
     isFinished = false;
 }
@@ -39,7 +50,9 @@ void LGame::init() {
     std::string errMessage;
     
     // check directory permission
-    if (LcheckDirectory(gameInfo.config.basedir, errMessage))
+    if (gameInfo.config.basedir == ".")
+        lpass();
+    else if (LcheckDirectory(gameInfo.config.basedir, errMessage))
         chdir(gameInfo.config.basedir.c_str());
     else throw std::runtime_error(errMessage);
 
@@ -235,6 +248,17 @@ void LGame::nextStep() {
 
 
         isFinished = true;
+    }
+    else if (command == LOG) {
+        try {
+            flag = processes[0].wait_for_getline(str);
+        } catch (std::exception& err) {
+            throw std::runtime_error("[in judger]:" + std::string(err.what()));
+        }
+        if (!flag) 
+            throw std::runtime_error("Judger Time Limit Exceeded!");
+        outFiles[0] << str << std::endl; // sava the stdout of judger
+        judger_logFile << str << std::endl; // judger's log
     }
 
 }

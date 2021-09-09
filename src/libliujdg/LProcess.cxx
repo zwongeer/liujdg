@@ -14,25 +14,16 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
-#include <thread>
 
 #include "Lfunc.hpp"
 #include "LProcess.hpp"
 
-static void Attack204_updateKilled(int pid, std::atomic<int>& status, std::atomic<bool>& killed) {
-    int ss;
-    ::waitpid(pid, &ss, 0);
-    status = ss;
-    killed = true;
-}
-
 LProcess::LProcess (const std::string& command, const std::string& currentDir) {
-    killed = false;
-
     if (!LcheckCommand(command) && !LcheckCommand(currentDir + command)) throw std::runtime_error("the command: `" + command + "` cannot be executed");
     if (!LcheckDirectory(currentDir)) throw std::runtime_error("cannot access the directory:[" + currentDir + "]");
     if (pipe(pipestdinfd)) throw std::runtime_error("failed to create a pipestdin");
     if (pipe(pipestdoutfd)) throw std::runtime_error("failed to create a pipestdout");
+    if (pipe(pipestderrfd)) throw std::runtime_error("failed to create a pipestderr");
 
     pid = fork();
 
@@ -43,10 +34,10 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
 
         dup2(pipestdinfd[0], STDIN_FILENO);
         dup2(pipestdoutfd[1], STDOUT_FILENO);
-        dup2(pipestdoutfd[1], STDERR_FILENO);
+        dup2(pipestderrfd[1], STDERR_FILENO);
         
-        // ask kernel to deliver SIGTERM in case the parent dies
-        prctl(PR_SET_PDEATHSIG, SIGTERM); // it is weird that this seems not to work
+        // ask kernel to deliver SIGKILL in case the parent dies
+        prctl(PR_SET_PDEATHSIG, SIGKILL); // it is weird that this seems not to work
 
         // run the program
         execl("/bin/sh", "/bin/sh", "-c", command.c_str(), nullptr);
@@ -60,24 +51,29 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
     // run in parent
     close(pipestdinfd[0]);
     close(pipestdoutfd[1]);
+    close(pipestderrfd[1]);
 
     c_p_from_child = fdopen(pipestdoutfd[0], "r");
     fd_from_child = fileno(c_p_from_child);
 
+    c_p_stderr = fdopen(pipestderrfd[0], "r");
+    fd_stderr_child = fileno(c_p_stderr);
+
     c_p_to_child = fdopen(pipestdinfd[1], "w");
     fd_to_child = fileno(c_p_to_child);
 
-    __gnu_cxx::stdio_filebuf<char>* p_inbuf = new __gnu_cxx::stdio_filebuf<char>(fd_from_child, std::ios::in);
-    __gnu_cxx::stdio_filebuf<char>* p_outbuf = new __gnu_cxx::stdio_filebuf<char>(fd_to_child, std::ios::out);
-    //__gnu_cxx::stdio_filebuf<char>* p_errbuf = new __gnu_cxx::stdio_filebuf<char>(fileno( fdopen(pipestderrfd[0], "r") ), std::ios::in);
+    p_inbuf = new __gnu_cxx::stdio_filebuf<char>(fd_from_child, std::ios::in);
+    p_outbuf = new __gnu_cxx::stdio_filebuf<char>(fd_to_child, std::ios::out);
+    p_errbuf = new __gnu_cxx::stdio_filebuf<char>(fd_stderr_child, std::ios::in);
 
-    p_from_child = new std::istream(p_inbuf);
-    //p_stderr = new std::istream(p_errbuf);
-    p_to_child = new std::ostream(p_outbuf);
+    p_from_child = new std::istream((__gnu_cxx::stdio_filebuf<char>*)p_inbuf);
+    p_stderr = new std::istream((__gnu_cxx::stdio_filebuf<char>*)p_errbuf);
+    p_to_child = new std::ostream((__gnu_cxx::stdio_filebuf<char>*)p_outbuf);
 
     p_from_child->tie(p_to_child);
+    p_stderr->tie(p_to_child);
 
-    std::thread(Attack204_updateKilled, pid, std::ref(status), std::ref(killed)).detach();
+    // std::thread(Attack204_updateKilled, pid, std::ref(status), std::ref(killed)).detach();
 }
 
 int LProcess::getpid () {
@@ -85,15 +81,29 @@ int LProcess::getpid () {
 }
 
 void LProcess::kill() {
-    ::kill(pid, SIGKILL); // send SIGKILL signal to the child process
+    checkStatus();
+    if (status.load() == Status::NONE || status.load() == Status::STOPPED || status.load() == Status::CONTINUED)
+        ::kill(pid, SIGKILL); // send SIGKILL signal to the child process (like kill -9 pid)
 }
 
 LProcess::~LProcess() {
+    fclose(c_p_from_child);
+    fclose(c_p_to_child);
+    fclose(c_p_stderr);
+
+    delete (__gnu_cxx::stdio_filebuf<char>*)p_errbuf;
+    delete (__gnu_cxx::stdio_filebuf<char>*)p_inbuf;
+    delete (__gnu_cxx::stdio_filebuf<char>*)p_outbuf;
+
     delete p_from_child;
     delete p_to_child;
+    delete p_stderr;
+    
     close(pipestdinfd[1]);
     close(pipestdoutfd[0]);
-    if (!killed)this->kill();
+    close(pipestderrfd[0]);
+    
+    this->kill();
 }
 
 std::ostream& LProcess::stdin() {
@@ -105,22 +115,70 @@ std::istream& LProcess::stdout() {
     return *p_from_child;
 }
 
+std::istream& LProcess::stderr() {
+    return *p_stderr;
+}
+
 void LProcess::flush() {
     const_cast<std::ostream*>(p_to_child)->flush();
 }
 
-int LProcess::getReturnValue() {
-    if (!killed.load()) return -1024;
-    return WEXITSTATUS(status.load());
+std::optional<int> LProcess::getReturnValue() {
+    checkStatus();
+    if (status.load() != Status::EXITED) return {};
+    return WEXITSTATUS(status_wait);
 }
 
-int LProcess::wait() {
-    while (!killed.load())
-        continue;
-    return WEXITSTATUS(status.load());
+std::optional<int> LProcess::getSignal() {
+    checkStatus();
+    if (status.load() == Status::SIGNALED) return WSTOPSIG(status_wait);
+    if (status.load() == Status::STOPPED) return WSTOPSIG(status_wait);
+    return {};
+}
+
+LProcess::Status LProcess::wait() {
+    int w = ::waitpid(pid, &status_wait, WUNTRACED | WCONTINUED);
+    if (w == -1)
+        return status = Status::UNKNOWN;
+    
+    if (w == pid) {
+        if (WIFEXITED(status_wait))
+            return status = Status::EXITED;
+        else if (WIFSIGNALED(status_wait))
+            return status = Status::SIGNALED;
+        else if (WIFSTOPPED(status_wait))
+            return status = Status::STOPPED;
+        else if (WIFCONTINUED(status_wait))
+            return status = Status::CONTINUED;
+    }
+    return status = Status::UNKNOWN; // this may never happen
+}
+
+void LProcess::checkStatus() {
+    // skip if the child program is waited
+    if (status != Status::NONE && status != Status::STOPPED && status != Status::CONTINUED) return;
+
+    // see https://linux.die.net/man/2/waitpid
+    int w = ::waitpid(pid, &status_wait, WNOHANG);
+    if (w == 0) return;
+    if (w == -1) {
+        status = Status::UNKNOWN;
+        return;
+    }
+    if (w == pid) {
+        if (WIFEXITED(status_wait))
+            status = Status::EXITED;
+        else if (WIFSIGNALED(status_wait))
+            status = Status::SIGNALED;
+        else if (WIFSTOPPED(status_wait))
+            status = Status::STOPPED;
+        else if (WIFCONTINUED(status_wait))
+            status = Status::CONTINUED;
+    }
 }
 
 bool LProcess::isRunning() {
-    // return ::kill(pid, 0) == 0;
-    return !killed;
+    checkStatus();
+    return status.load() != Status::EXITED && status.load() != Status::SIGNALED 
+        && status.load() != Status::UNKNOWN && status.load() != Status::STOPPED;
 }
