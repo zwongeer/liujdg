@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <fstream>
 #include <optional>
 #include <string>
@@ -29,6 +30,11 @@ void LfuncInit();
 std::string LreadFile(std::istream& in, size_t len = 512);
 
 std::string_view LgetCommand(const char* command);
+
+inline auto Lget_seconds_since_epoch() {
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::seconds>(now).count();
+}
 
 // get the location of a file if existed
 std::optional<std::string> LgetFilePath(const std::string& file);

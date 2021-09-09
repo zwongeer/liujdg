@@ -1,24 +1,6 @@
-#include <memory>
+#include "deamon/all_apis.hpp"
 
-#include <liujdg_version.hpp>
-
-#include <nlohmann/json.hpp>
-#include <restinio/all.hpp>
-
-namespace rr = restinio::router;
-using router_t = restinio::router::express_router_t<>;
-auto router = std::make_unique<router_t>();
-
-template <typename RESPONSE>
-RESPONSE init_response(RESPONSE response) {
-    response.append_header("Server", "Potatoes & Apples");
-    response.append_header("Who-is-txdy", "Attack204");
-    response.append_header_date_field()
-        .append_header( "Content-Type", "text/plain; charset=utf-8" );
-    return response;
-}
-
-auto server_handler() {
+std::unique_ptr<router_t> server_handler() {
     auto router = std::make_unique<router_t>();
     auto allMethods = restinio::router::none_of_methods(
         // restinio::http_method_get(),
@@ -38,16 +20,52 @@ auto server_handler() {
                 .done();
     });
 
-    router->non_matched_request_handler([](auto req) {
+    router->add_handler(allMethods, "/", [](auto req, auto params) {
+        std::string str_header;
+        req->header().for_each_field([&](auto field) {
+            str_header += fmt::format("{}: {}\n", field.name(), field.value());
+        });
         return init_response(req->create_response())
-                .set_body("Hello " + liujdg::NAME + "\n" + "You sent:" + req->body())
+                .set_body( fmt::format("Hello {}\nYou sent: \n{}\nPost:\n{}", liujdg::NAME + "-" + liujdg::VERSION, str_header, req->body()) )
+                .done();
+    });
+
+    use_all_apis(router);
+
+    router->non_matched_request_handler([](auto req) {
+        return init_response(req->create_response(censoredByAttack204))
+                .set_body(fmt::format("{}<br><del>Your ip({}) had been reported to Attack204!</del>",
+                    censoredByAttack204.reason_phrase(), req->remote_endpoint().address().to_string()))
+                .append_header( restinio::http_field::content_type, "text/html; charset=utf-8")
                 .done();
     });
     return router;
 }
 
-int main() {
+struct liujdg_deamon_config {
+    int port;
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(liujdg_deamon_config, port)
+
+int main(int argc, const char** args) {
     using namespace std::chrono;
+    json configFile;
+    if (!LcheckFileExists(args[1]))
+        throw std::runtime_error(fmt::format("File {} not exists.", args[1]));
+    std::ifstream in(args[1]);
+    if (!in)
+        throw std::runtime_error(fmt::format("File {} unaccessible.", args[1]));
+    
+    liujdg_deamon_config config;
+    try {
+        configFile = json::parse(LreadFile(in));
+        configFile.get_to(config);
+    } catch (std::exception& err) {
+        std::cerr << "Error: " << err.what() << std::endl;
+        return -1;
+    }
+    
     try {
         using traits_t = restinio::traits_t<
                 restinio::asio_timer_manager_t,
@@ -56,10 +74,10 @@ int main() {
                 #else
                 restinio::single_threaded_ostream_logger_t,
                 #endif
-                router_t >;
+                router_t>;
         restinio::run(
             restinio::on_this_thread<traits_t>()
-            .port(1984)
+            .port(config.port)
             .address("localhost")
             .request_handler(server_handler())
             // .read_next_http_message_timelimit(10s)
@@ -68,7 +86,7 @@ int main() {
         );
     } catch (std::exception& err) {
         std::cerr << "Error: " << err.what() << std::endl;
-		return 1;
+        return 1;
     }
     return 0;
 }
