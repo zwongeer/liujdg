@@ -1,9 +1,9 @@
- {
+{
   "players": [
     {
       "name": "attack204-0",
       "id": "attack204-0-no-root",
-      "build": ".",
+      "build": "",
       "run": "./p1.py",
       "folder": "data",
       "basedir": "p1"
@@ -23,13 +23,12 @@
     "build": "",
     "run": "./judger.py",
     "folder": "data/",
-    "basedir": "judger"
+    "basedir": "./judger"
   },
   "config": {
     "logdir": "./log",
     "basedir": ".",
     "timeLimit": 5,
-    "buildTimeLimit": 20,
-    "errorLog": ""
+    "buildTimeLimit": 20
   }
 }

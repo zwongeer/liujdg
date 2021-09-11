@@ -1,3 +1,4 @@
 {
-    "port": 1984
+    "port": 1984,
+    "path": "./liujdg_data"
 }

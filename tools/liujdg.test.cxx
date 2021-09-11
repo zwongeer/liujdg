@@ -16,8 +16,10 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
     try {
-        LProcess_container pro("g++ hello.cpp -o hello");
-        string str;
+        LProcess_container pro("liujdg.run -");
+        pro.stdin() << "not a json!" << std::endl;
+        pro.process->closeInPipe();
+        cout << "F:" << (pro.isRunning()) << endl;
         char ch;
         cout << "[stdout]:" << endl;
         while (ch = pro.stdout().get(), ch != EOF)

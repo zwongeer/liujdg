@@ -3,7 +3,7 @@
 ### 运行
 
 ```
-$ liujdg.build <json配置文件路径>
+liujdg.build <json配置文件路径>
 ```
 
 - 根据json文件中的内容`*.build`构建程序，并且创建对应的文件夹

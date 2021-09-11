@@ -13,7 +13,7 @@
 #include "Lfunc.hpp"
 #include "LGameInfo.hpp"
 
-LGameInfo::LGameInfo(const std::string& json, bool noCheck) {
+LGameInfo::LGameInfo(const std::string& json) {
     std::ifstream in(json.c_str());
     if (!in.good()) throw std::runtime_error("Cannot open the json file `" + json + '`');
 
@@ -27,10 +27,10 @@ LGameInfo::LGameInfo(const std::string& json, bool noCheck) {
     while (ch = in.get(), ch != EOF)
         data += char(ch);
     in.close();
-    fromString(data, noCheck);
+    fromString(data);
 }
 
-void LGameInfo::fromString(const std::string& str, bool noCheck) {
+void LGameInfo::fromString(const std::string& str) {
     rapidjson::Document doc;
     bool flag;
     if (doc.Parse(str.c_str()).HasParseError())
@@ -47,17 +47,29 @@ void LGameInfo::fromString(const std::string& str, bool noCheck) {
         }
     } else throw std::runtime_error("Cannot find players from json");
     if (doc.HasMember(CONFIG) && doc[CONFIG].IsObject())
-        config = Ljdgconfig::readFromJSON(doc[CONFIG]);
+        this->config = Ljdgconfig::readFromJSON(doc[CONFIG]);
     else throw std::runtime_error("Cannot find config from json");
+}
 
-    // check the build and run command
-    if (noCheck == false)
-    for (int i = 0; i < getPeopleNum(); ++i) {
-        if (persons[i].build != "" && persons[i].build != "."  && !LcheckCommand(persons[i].build))
-            throw std::runtime_error("Invalid build command for user:" + persons[i].name + ",id:" + persons[i].id);
-        if (!LcheckCommand(persons[i].run) && !LcheckCommand(persons[i].basedir + persons[i].run))
-            throw std::runtime_error("Invalid run command for user:" + persons[i].name + ",id:" + persons[i].id);
+std::string LGameInfo::toString() {
+    // add players
+    std::string ret = R"({"players": [)";
+    nlohmann::json j;
+    for (int i = 1; i < persons.size(); ++i) {
+        j.clear();
+        to_json(j, persons[i]);
+        ret += j.dump();
+        if (i != persons.size() - 1) ret += ",";
     }
+    ret += R"(],"judger":)";
+    j.clear();
+    to_json(j, persons[0]);
+    ret += j.dump();
+    ret += R"(,"config":)";
+    j.clear();
+    to_json(j, config);
+    ret += j.dump() + "}";
+    return ret;
 }
 
 int LGameInfo::getPeopleNum() {

@@ -15,19 +15,16 @@ Ljdgconfig Ljdgconfig::readFromJSON(const rapidjson::Value& v) {
     if (config.logdir != "" && config.logdir.back() != '/')
         config.logdir.push_back('/');
     
+    if (config.basedir == "") config.basedir = defaults::BASEDIR;
+    
     if (config.basedir.back() != '/')
         config.basedir.push_back('/');
-
-    if (config.basedir == "") config.basedir = defaults::BASEDIR;
 
     if (v.HasMember(TIMELIMIT) && v[TIMELIMIT].IsUint() && v[TIMELIMIT].GetUint() <= unsigned(INT_MAX))
         config.timeLimit = v[TIMELIMIT].GetUint();
 
     if (v.HasMember(BUILDTIMELIMIT) && v[BUILDTIMELIMIT].IsUint() && v[BUILDTIMELIMIT].GetUint() <= unsigned(INT_MAX))
         config.buildTimeLimit = v[BUILDTIMELIMIT].GetUint();
-
-    if (v.HasMember(ERRORLOG) && v[ERRORLOG].IsString())
-        config.errorLog = v[ERRORLOG].GetString();
 
     return config;
 }

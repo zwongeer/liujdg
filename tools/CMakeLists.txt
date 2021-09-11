@@ -25,7 +25,8 @@ add_file_cxx(liujdg.build ${LIBS})
 
 find_package(fmt REQUIRED)
 find_package(restinio REQUIRED)
-set(LIBS restinio::restinio ${LIBS})
+add_subdirectory(deamon)
+set(LIBS libliujdg_deamon soci_sqlite3 soci_core restinio::restinio ${LIBS})
 add_file_cxx(liujdg.deamon ${LIBS})
 
 install(FILES "liujdg.uninstall.sh"

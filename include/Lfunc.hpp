@@ -5,8 +5,11 @@
 #include <string>
 #include <string_view>
 
+#include <fmt/core.h>
+
+#define LINFO fmt::format("In f:{}  file:{} line:{}\n", __func__, __FILE__, __LINE__)
 #define LSHOW(a) (std::cout << "[" << #a << "]: " << (a) << std::endl);
-#define LH (std::cout << "In f:" << __func__ << "\tfile:" << __FILE__ << "\tline:" << __LINE__ << std::endl);
+#define LH (std::cout << LINFO << std::endl);
 #define LXD(a) (std::cout << #a << std::endl);
 #define LExit(v) return (v)
 // [[noreturn]] inline void LExit(int exit_code) noexcept { std::quick_exit(exit_code); }

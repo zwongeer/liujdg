@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+SHELL_FOLDER=$(dirname $(readlink -f "$0"))
+cd $SHELL_FOLDER
 rm -rf judger/data
 rm -f judger/judger
 rm -rf p1/data

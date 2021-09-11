@@ -34,3 +34,6 @@ lib/
 
 # Others
 /build
+/tools/deamon/all_apis.hpp
+/liujdg_data
+*.db

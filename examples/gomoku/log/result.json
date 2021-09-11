@@ -1,0 +1,17 @@
+{
+  "players": [
+    {
+      "name": "attack204-0",
+      "id": "attack204-0-no-root",
+      "scores": 1,
+      "isWinner": true
+    },
+    {
+      "name": "attack204-1",
+      "id": "attack204-1-no-root",
+      "scores": 0,
+      "isWinner": false
+    }
+  ],
+  "comments": "Good!"
+}

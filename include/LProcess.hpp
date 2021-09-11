@@ -16,10 +16,11 @@ struct LProcess {
         STOPPED, // suspended
         CONTINUED // resumed
     };
-    std::atomic<Status> status = Status::NONE;
+    std::atomic<Status> status;
     int pipestdinfd[2];
     int pipestdoutfd[2];
     int pipestderrfd[2];
+    bool stdinPipeClosed;
 
     int fd_from_child;
     int fd_to_child;
@@ -52,4 +53,5 @@ struct LProcess {
     void flush();
     bool isRunning();
     void checkStatus();
+    void closeInPipe();
 };

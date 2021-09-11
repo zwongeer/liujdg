@@ -29,7 +29,6 @@
     "logdir": "./log",
     "basedir": ".",
     "timeLimit": 5,
-    "buildTimeLimit": 20,
-    "errorLog": ""
+    "buildTimeLimit": 20
   }
 }

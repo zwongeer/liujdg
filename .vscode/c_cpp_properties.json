@@ -7,7 +7,8 @@
                 "${workspaceFolder}/include/**",
                 "${workspaceFolder}/build/generated/**"
             ],
-            "defines": []
+            "defines": [],
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

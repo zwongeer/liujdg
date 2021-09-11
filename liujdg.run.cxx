@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -12,31 +13,40 @@
 #include "LGame.hpp"
 
 int main(int argc, char const *argv[]) {
-    if (argc != 2 && argc != 3) {
+    namespace fs = std::filesystem;
+    if (argc != 2) {
         std::cerr << "Syntax Error!" << std::endl;
         LExit(1);
     }
-    bool useErrorLogFile;
-    std::ofstream errorLogFile;
-    if (argc == 3) {
-        errorLogFile.open(argv[2], std::ios::ate);
-        if (!errorLogFile) {
-            std::cerr << "Unable to open the log file" << std::endl;
-            LExit(1);
-        }
-        useErrorLogFile = true;
-    } else {
-        useErrorLogFile = false;
-        errorLogFile.open("/dev/null");
-        std::cerr << "[warning]: Not using the log file" << std::endl;
-    }
+    std::ofstream errorLogFile("/dev/null");
+    
+    bool useStdin = strcmp(argv[1], "-") == 0;
+    std::ifstream fin;
+    if (!useStdin)
+        fin.open(argv[1]);
+    std::istream& in = useStdin ? std::cin : fin;
 
     std::shared_ptr<LGame> pgame;
     // load the config and launch the programs
     try {
         LfuncInit();
-        pgame = std::make_shared<LGame>(argv[1]);
+        if (!useStdin) {
+            auto path = LgetFilePath(argv[1]);
+            if (path.has_value()) ::chdir(path.value().c_str());
+        }
+        std::string str = LreadFile(in);
+        LGameInfo info;
+        info.fromString(str);
+        fs::current_path(info.config.basedir);
+        pgame = std::make_shared<LGame>();
+        pgame->fromString(str);
         pgame->init();
+        std::ofstream out(fs::path(pgame->gameInfo.config.logdir) / "liujdg_run_log.txt", std::ios::out);
+        
+        if (!out)
+            throw std::runtime_error(LINFO + "Unable to open liujdg.run log file");
+        else
+            errorLogFile = std::move(out);
         pgame->run();
     } catch (std::exception& err) {
         std::cerr << "[fatal error]:" << err.what() << std::endl;

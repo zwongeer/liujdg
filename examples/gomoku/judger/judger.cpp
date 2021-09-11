@@ -58,7 +58,7 @@ inline int switchPlayer(int p) {
   return p == 1 ? 2 : 1;
 }
 inline void winAndScore(int thewinner) {
-	std::cout << "#win " << thewinner << std::endl;
+  std::cout << "#win " << thewinner << std::endl;
     // score the players
     for (int i = 1; i <= 2; ++i) {
       if (i == thewinner) std::cout << "1 ";

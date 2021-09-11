@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+#include <nlohmann/json.hpp>
+
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>
 #include <rapidjson/stringbuffer.h>
@@ -26,3 +28,5 @@ struct LPerson {
     LPerson(LPerson&&) = default;
     LPerson& operator = (LPerson&&) = default;
 };
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(LPerson, name, id, build, run, folder, basedir)

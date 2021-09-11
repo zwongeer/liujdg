@@ -2,6 +2,9 @@
 #include <cstdint>
 #include <string>
 
+
+#include <nlohmann/json.hpp>
+
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>
 #include <rapidjson/stringbuffer.h>
@@ -25,3 +28,5 @@ struct LPlayerResult {
 
     void writeToJSON(rapidjson::PrettyWriter<rapidjson::StringBuffer>& writer);
 };
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(LPlayerResult, name, id, scores, isWinner)

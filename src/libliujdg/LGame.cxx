@@ -1,3 +1,5 @@
+#include <cctype>
+
 #include <algorithm>
 #include <chrono>
 #include <sstream>
@@ -10,11 +12,8 @@
 #include "Lfunc.hpp"
 #include "LGame.hpp"
 
-LGame::LGame(const std::string& json):gameInfo(json) {
-    // switch current working path to the json file's
-    std::optional<std::string> path = LgetFilePath(json);
-    if (path.has_value()) chdir(path.value().c_str());
-
+void LGame::fromString(const std::string& str) {
+    gameInfo.fromString(str);
     // reserve space for indexes
     peopleIndex.resize(gameInfo.getPeopleNum());
     indexForJudger.resize(gameInfo.getPeopleNum());
@@ -44,6 +43,13 @@ LGame::LGame(const std::string& json):gameInfo(json) {
         judger_logFile << R"({"player_realid": )" << i << R"(, "random_id" : )" << peopleIndex[i] << "}\n";
 
     isFinished = false;
+}
+
+LGame::LGame(const std::string& json) {
+    std::ifstream in(json.c_str());
+    if (!in.good()) throw std::runtime_error(LINFO + "Cannot open the file `" + json + '`');
+    std::string file = LreadFile(in);
+    fromString(file);
 }
 
 void LGame::init() {
@@ -93,11 +99,11 @@ void LGame::nextStep() {
     try {
         flag = processes[0].wait_for_getline(str);
     } catch (std::exception& err) {
-        throw std::runtime_error("[judger]:" + std::string(err.what()));
+        throw std::runtime_error(LINFO + "[judger]:" + std::string(err.what()));
     }
     
     if (!flag)
-        throw std::runtime_error("Judger Time Limit Exceeded!");
+        throw std::runtime_error(LINFO + "Judger Time Limit Exceeded!");
     outFiles[0] << str << std::endl;
 
     std::string_view command = LgetCommand(str);
@@ -117,10 +123,10 @@ void LGame::nextStep() {
         try {
             flag = processes[0].wait_for_getline(str);
         } catch (std::exception& err) {
-            throw std::runtime_error("[in judger]:" + std::string(err.what()));
+            throw std::runtime_error(LINFO + "[in judger]:" + std::string(err.what()));
         }
         if (!flag)
-            throw std::runtime_error("Judger Time Limit Exceeded!");
+            throw std::runtime_error(LINFO + "Judger Time Limit Exceeded!");
         outFiles[0] << str << std::endl;
 
         // send the message (send to all players if id = 0)
@@ -131,7 +137,7 @@ void LGame::nextStep() {
             for (int i = 1; i < gameInfo.getPeopleNum(); ++i)
                 processes[i].stdin() << str << std::endl;
         else
-            throw std::runtime_error("Judger `Send` Syntax Error");
+            throw std::runtime_error(LINFO + "Judger `Send` Syntax Error");
 
     }
     else if (command == CONTINUE) {
@@ -143,9 +149,21 @@ void LGame::nextStep() {
         try {
             flag = processes[indexForJudger.at(id)].wait_for_getline(str);
         } catch (std::exception& err) {
-            throw std::runtime_error("in player[" + gameInfo.persons[indexForJudger.at(id)].name + "]:" + std::string(err.what()));
+            throw std::runtime_error(LINFO + "in player[" + gameInfo.persons[indexForJudger.at(id)].name + "]:" + std::string(err.what()));
         }
-        if (!flag) throw std::runtime_error("in player[" + gameInfo.persons[indexForJudger.at(id)].name + "] Time Limit Exceeded!");
+
+        // check string is valid
+        auto check = [](const std::string& s) -> bool {
+            bool status = false;
+            for (auto c : s) {
+                if (::isprint(c) && !::isspace(c))
+                    status = true;
+            }
+            return status;
+        };
+        if (!check(str)) throw std::runtime_error(LINFO + "in player[" + gameInfo.persons[indexForJudger.at(id)].name + "] No valid output (maybe process is exited)");
+
+        if (!flag) throw std::runtime_error(LINFO + "in player[" + gameInfo.persons[indexForJudger.at(id)].name + "] Time Limit Exceeded!");
         outFiles[indexForJudger.at(id)] << str << std::endl;
 
         // send message to the judger
@@ -172,10 +190,10 @@ void LGame::nextStep() {
         try {
             flag = processes[0].wait_for_getline(str);
         } catch (std::exception& err) {
-            throw std::runtime_error("[in judger]:" + std::string(err.what()));
+            throw std::runtime_error(LINFO + "[in judger]:" + std::string(err.what()));
         }
         if (!flag)
-            throw std::runtime_error("Judger Time Limit Exceeded!");
+            throw std::runtime_error(LINFO + "Judger Time Limit Exceeded!");
         outFiles[0] << str << std::endl;
 
         playerList.clear();
@@ -186,7 +204,7 @@ void LGame::nextStep() {
             playerList.push_back(ret);
 
         // set the scores
-        if (playerList.size() != gameInfo.getPeopleNum() - 1) throw std::runtime_error("Judger did not score every player");
+        if (playerList.size() != gameInfo.getPeopleNum() - 1) throw std::runtime_error(LINFO + "Judger did not score every player");
         for (int i = 0; i < playerList.size(); ++i)
             gameResult.playersResults[ indexForJudger.at(i + 1) ].scores = playerList[i];
 
@@ -195,10 +213,10 @@ void LGame::nextStep() {
             try {
                 flag = processes[0].wait_for_getline(str);
             } catch (std::exception& err) {
-                throw std::runtime_error("[in judger]:" + std::string(err.what()));
+                throw std::runtime_error(LINFO + "[in judger]:" + std::string(err.what()));
             }
             if (!flag)
-                throw std::runtime_error("Judger Time Limit Exceeded!");
+                throw std::runtime_error(LINFO + "Judger Time Limit Exceeded!");
             gameResult.comments = str;
             outFiles[0] << str << std::endl;
         } else gameResult.comments = "No comments";
@@ -214,10 +232,10 @@ void LGame::nextStep() {
         try {
             flag = processes[0].wait_for_getline(str);
         } catch (std::exception& err) {
-            throw std::runtime_error("[in judger]:" + std::string(err.what()));
+            throw std::runtime_error(LINFO + "[in judger]:" + std::string(err.what()));
         }
         if (!flag) 
-            throw std::runtime_error("Judger Time Limit Exceeded!");
+            throw std::runtime_error(LINFO + "Judger Time Limit Exceeded!");
         outFiles[0] << str << std::endl;
 
         playerList.clear();
@@ -227,7 +245,7 @@ void LGame::nextStep() {
             playerList.push_back(ret);
 
         // set the scores
-        if (playerList.size() != gameInfo.getPeopleNum() - 1) throw std::runtime_error("Judger did not score every player");
+        if (playerList.size() != gameInfo.getPeopleNum() - 1) throw std::runtime_error(LINFO + "Judger did not score every player");
         for (int i = 0; i < playerList.size(); ++i)
             gameResult.playersResults[ indexForJudger.at(i + 1) ].scores = playerList[i];
 
@@ -236,7 +254,7 @@ void LGame::nextStep() {
             try {
                 flag = processes[0].wait_for_getline(str);
             } catch (std::exception& err) {
-                throw std::runtime_error("[in judger]:" + std::string(err.what()));
+                throw std::runtime_error(LINFO + "[in judger]:" + std::string(err.what()));
             }
             if (!flag) {
                 gameResult.comments = "";
@@ -253,10 +271,10 @@ void LGame::nextStep() {
         try {
             flag = processes[0].wait_for_getline(str);
         } catch (std::exception& err) {
-            throw std::runtime_error("[in judger]:" + std::string(err.what()));
+            throw std::runtime_error(LINFO + "[in judger]:" + std::string(err.what()));
         }
         if (!flag) 
-            throw std::runtime_error("Judger Time Limit Exceeded!");
+            throw std::runtime_error(LINFO + "Judger Time Limit Exceeded!");
         outFiles[0] << str << std::endl; // sava the stdout of judger
         judger_logFile << str << std::endl; // judger's log
     }

@@ -1,0 +1,1554 @@
+
+#send 1
+1
+#continue 1
+#log
+1 7 15
+#send 2
+1 7 15
+#send 2
+2
+#continue 2
+#log
+2 17 3
+#send 1
+2 17 3
+#send 1
+1
+#continue 1
+#log
+1 18 2
+#send 2
+1 18 2
+#send 2
+2
+#continue 2
+#log
+2 5 6
+#send 1
+2 5 6
+#send 1
+1
+#continue 1
+#log
+1 0 18
+#send 2
+1 0 18
+#send 2
+2
+#continue 2
+#log
+2 15 9
+#send 1
+2 15 9
+#send 1
+1
+#continue 1
+#log
+1 11 14
+#send 2
+1 11 14
+#send 2
+2
+#continue 2
+#log
+2 1 18
+#send 1
+2 1 18
+#send 1
+1
+#continue 1
+#log
+1 1 12
+#send 2
+1 1 12
+#send 2
+2
+#continue 2
+#log
+2 7 1
+#send 1
+2 7 1
+#send 1
+1
+#continue 1
+#log
+1 9 16
+#send 2
+1 9 16
+#send 2
+2
+#continue 2
+#log
+2 3 7
+#send 1
+2 3 7
+#send 1
+1
+#continue 1
+#log
+1 3 13
+#send 2
+1 3 13
+#send 2
+2
+#continue 2
+#log
+2 0 9
+#send 1
+2 0 9
+#send 1
+1
+#continue 1
+#log
+1 17 4
+#send 2
+1 17 4
+#send 2
+2
+#continue 2
+#log
+2 2 12
+#send 1
+2 2 12
+#send 1
+1
+#continue 1
+#log
+1 14 9
+#send 2
+1 14 9
+#send 2
+2
+#continue 2
+#log
+2 4 18
+#send 1
+2 4 18
+#send 1
+1
+#continue 1
+#log
+1 2 1
+#send 2
+1 2 1
+#send 2
+2
+#continue 2
+#log
+2 14 17
+#send 1
+2 14 17
+#send 1
+1
+#continue 1
+#log
+1 8 6
+#send 2
+1 8 6
+#send 2
+2
+#continue 2
+#log
+2 9 9
+#send 1
+2 9 9
+#send 1
+1
+#continue 1
+#log
+1 6 11
+#send 2
+1 6 11
+#send 2
+2
+#continue 2
+#log
+2 18 10
+#send 1
+2 18 10
+#send 1
+1
+#continue 1
+#log
+1 9 8
+#send 2
+1 9 8
+#send 2
+2
+#continue 2
+#log
+2 4 12
+#send 1
+2 4 12
+#send 1
+1
+#continue 1
+#log
+1 15 5
+#send 2
+1 15 5
+#send 2
+2
+#continue 2
+#log
+2 6 12
+#send 1
+2 6 12
+#send 1
+1
+#continue 1
+#log
+1 11 1
+#send 2
+1 11 1
+#send 2
+2
+#continue 2
+#log
+2 16 13
+#send 1
+2 16 13
+#send 1
+1
+#continue 1
+#log
+1 13 2
+#send 2
+1 13 2
+#send 2
+2
+#continue 2
+#log
+2 11 6
+#send 1
+2 11 6
+#send 1
+1
+#continue 1
+#log
+1 11 12
+#send 2
+1 11 12
+#send 2
+2
+#continue 2
+#log
+2 5 11
+#send 1
+2 5 11
+#send 1
+1
+#continue 1
+#log
+1 6 0
+#send 2
+1 6 0
+#send 2
+2
+#continue 2
+#log
+2 4 16
+#send 1
+2 4 16
+#send 1
+1
+#continue 1
+#log
+1 6 7
+#send 2
+1 6 7
+#send 2
+2
+#continue 2
+#log
+2 15 14
+#send 1
+2 15 14
+#send 1
+1
+#continue 1
+#log
+1 14 0
+#send 2
+1 14 0
+#send 2
+2
+#continue 2
+#log
+2 8 8
+#send 1
+2 8 8
+#send 1
+1
+#continue 1
+#log
+1 1 13
+#send 2
+1 1 13
+#send 2
+2
+#continue 2
+#log
+2 13 15
+#send 1
+2 13 15
+#send 1
+1
+#continue 1
+#log
+1 7 4
+#send 2
+1 7 4
+#send 2
+2
+#continue 2
+#log
+2 17 15
+#send 1
+2 17 15
+#send 1
+1
+#continue 1
+#log
+1 7 6
+#send 2
+1 7 6
+#send 2
+2
+#continue 2
+#log
+2 6 13
+#send 1
+2 6 13
+#send 1
+1
+#continue 1
+#log
+1 11 2
+#send 2
+1 11 2
+#send 2
+2
+#continue 2
+#log
+2 17 12
+#send 1
+2 17 12
+#send 1
+1
+#continue 1
+#log
+1 15 4
+#send 2
+1 15 4
+#send 2
+2
+#continue 2
+#log
+2 1 1
+#send 1
+2 1 1
+#send 1
+1
+#continue 1
+#log
+1 7 16
+#send 2
+1 7 16
+#send 2
+2
+#continue 2
+#log
+2 12 3
+#send 1
+2 12 3
+#send 1
+1
+#continue 1
+#log
+1 13 1
+#send 2
+1 13 1
+#send 2
+2
+#continue 2
+#log
+2 8 16
+#send 1
+2 8 16
+#send 1
+1
+#continue 1
+#log
+1 10 9
+#send 2
+1 10 9
+#send 2
+2
+#continue 2
+#log
+2 10 1
+#send 1
+2 10 1
+#send 1
+1
+#continue 1
+#log
+1 2 15
+#send 2
+1 2 15
+#send 2
+2
+#continue 2
+#log
+2 2 16
+#send 1
+2 2 16
+#send 1
+1
+#continue 1
+#log
+1 11 10
+#send 2
+1 11 10
+#send 2
+2
+#continue 2
+#log
+2 4 17
+#send 1
+2 4 17
+#send 1
+1
+#continue 1
+#log
+1 4 15
+#send 2
+1 4 15
+#send 2
+2
+#continue 2
+#log
+2 15 12
+#send 1
+2 15 12
+#send 1
+1
+#continue 1
+#log
+1 17 10
+#send 2
+1 17 10
+#send 2
+2
+#continue 2
+#log
+2 5 13
+#send 1
+2 5 13
+#send 1
+1
+#continue 1
+#log
+1 11 0
+#send 2
+1 11 0
+#send 2
+2
+#continue 2
+#log
+2 16 5
+#send 1
+2 16 5
+#send 1
+1
+#continue 1
+#log
+1 0 11
+#send 2
+1 0 11
+#send 2
+2
+#continue 2
+#log
+2 3 8
+#send 1
+2 3 8
+#send 1
+1
+#continue 1
+#log
+1 15 15
+#send 2
+1 15 15
+#send 2
+2
+#continue 2
+#log
+2 11 17
+#send 1
+2 11 17
+#send 1
+1
+#continue 1
+#log
+1 5 16
+#send 2
+1 5 16
+#send 2
+2
+#continue 2
+#log
+2 18 6
+#send 1
+2 18 6
+#send 1
+1
+#continue 1
+#log
+1 12 12
+#send 2
+1 12 12
+#send 2
+2
+#continue 2
+#log
+2 18 8
+#send 1
+2 18 8
+#send 1
+1
+#continue 1
+#log
+1 0 1
+#send 2
+1 0 1
+#send 2
+2
+#continue 2
+#log
+2 18 9
+#send 1
+2 18 9
+#send 1
+1
+#continue 1
+#log
+1 2 11
+#send 2
+1 2 11
+#send 2
+2
+#continue 2
+#log
+2 10 18
+#send 1
+2 10 18
+#send 1
+1
+#continue 1
+#log
+1 13 10
+#send 2
+1 13 10
+#send 2
+2
+#continue 2
+#log
+2 16 12
+#send 1
+2 16 12
+#send 1
+1
+#continue 1
+#log
+1 8 12
+#send 2
+1 8 12
+#send 2
+2
+#continue 2
+#log
+2 9 0
+#send 1
+2 9 0
+#send 1
+1
+#continue 1
+#log
+1 10 17
+#send 2
+1 10 17
+#send 2
+2
+#continue 2
+#log
+2 14 3
+#send 1
+2 14 3
+#send 1
+1
+#continue 1
+#log
+1 2 0
+#send 2
+1 2 0
+#send 2
+2
+#continue 2
+#log
+2 8 2
+#send 1
+2 8 2
+#send 1
+1
+#continue 1
+#log
+1 1 17
+#send 2
+1 1 17
+#send 2
+2
+#continue 2
+#log
+2 18 3
+#send 1
+2 18 3
+#send 1
+1
+#continue 1
+#log
+1 9 6
+#send 2
+1 9 6
+#send 2
+2
+#continue 2
+#log
+2 18 0
+#send 1
+2 18 0
+#send 1
+1
+#continue 1
+#log
+1 13 7
+#send 2
+1 13 7
+#send 2
+2
+#continue 2
+#log
+2 16 6
+#send 1
+2 16 6
+#send 1
+1
+#continue 1
+#log
+1 0 6
+#send 2
+1 0 6
+#send 2
+2
+#continue 2
+#log
+2 3 11
+#send 1
+2 3 11
+#send 1
+1
+#continue 1
+#log
+1 5 18
+#send 2
+1 5 18
+#send 2
+2
+#continue 2
+#log
+2 14 4
+#send 1
+2 14 4
+#send 1
+1
+#continue 1
+#log
+1 0 0
+#send 2
+1 0 0
+#send 2
+2
+#continue 2
+#log
+2 3 5
+#send 1
+2 3 5
+#send 1
+1
+#continue 1
+#log
+1 2 2
+#send 2
+1 2 2
+#send 2
+2
+#continue 2
+#log
+2 0 10
+#send 1
+2 0 10
+#send 1
+1
+#continue 1
+#log
+1 13 0
+#send 2
+1 13 0
+#send 2
+2
+#continue 2
+#log
+2 7 2
+#send 1
+2 7 2
+#send 1
+1
+#continue 1
+#log
+1 15 1
+#send 2
+1 15 1
+#send 2
+2
+#continue 2
+#log
+2 5 15
+#send 1
+2 5 15
+#send 1
+1
+#continue 1
+#log
+1 8 9
+#send 2
+1 8 9
+#send 2
+2
+#continue 2
+#log
+2 4 10
+#send 1
+2 4 10
+#send 1
+1
+#continue 1
+#log
+1 1 9
+#send 2
+1 1 9
+#send 2
+2
+#continue 2
+#log
+2 14 1
+#send 1
+2 14 1
+#send 1
+1
+#continue 1
+#log
+1 17 8
+#send 2
+1 17 8
+#send 2
+2
+#continue 2
+#log
+2 12 7
+#send 1
+2 12 7
+#send 1
+1
+#continue 1
+#log
+1 2 17
+#send 2
+1 2 17
+#send 2
+2
+#continue 2
+#log
+2 12 6
+#send 1
+2 12 6
+#send 1
+1
+#continue 1
+#log
+1 0 5
+#send 2
+1 0 5
+#send 2
+2
+#continue 2
+#log
+2 12 0
+#send 1
+2 12 0
+#send 1
+1
+#continue 1
+#log
+1 0 17
+#send 2
+1 0 17
+#send 2
+2
+#continue 2
+#log
+2 16 9
+#send 1
+2 16 9
+#send 1
+1
+#continue 1
+#log
+1 15 3
+#send 2
+1 15 3
+#send 2
+2
+#continue 2
+#log
+2 18 14
+#send 1
+2 18 14
+#send 1
+1
+#continue 1
+#log
+1 12 10
+#send 2
+1 12 10
+#send 2
+2
+#continue 2
+#log
+2 12 1
+#send 1
+2 12 1
+#send 1
+1
+#continue 1
+#log
+1 16 8
+#send 2
+1 16 8
+#send 2
+2
+#continue 2
+#log
+2 14 6
+#send 1
+2 14 6
+#send 1
+1
+#continue 1
+#log
+1 17 9
+#send 2
+1 17 9
+#send 2
+2
+#continue 2
+#log
+2 9 7
+#send 1
+2 9 7
+#send 1
+1
+#continue 1
+#log
+1 2 3
+#send 2
+1 2 3
+#send 2
+2
+#continue 2
+#log
+2 16 18
+#send 1
+2 16 18
+#send 1
+1
+#continue 1
+#log
+1 3 12
+#send 2
+1 3 12
+#send 2
+2
+#continue 2
+#log
+2 10 12
+#send 1
+2 10 12
+#send 1
+1
+#continue 1
+#log
+1 3 3
+#send 2
+1 3 3
+#send 2
+2
+#continue 2
+#log
+2 13 17
+#send 1
+2 13 17
+#send 1
+1
+#continue 1
+#log
+1 6 9
+#send 2
+1 6 9
+#send 2
+2
+#continue 2
+#log
+2 1 2
+#send 1
+2 1 2
+#send 1
+1
+#continue 1
+#log
+1 15 16
+#send 2
+1 15 16
+#send 2
+2
+#continue 2
+#log
+2 8 5
+#send 1
+2 8 5
+#send 1
+1
+#continue 1
+#log
+1 12 4
+#send 2
+1 12 4
+#send 2
+2
+#continue 2
+#log
+2 15 6
+#send 1
+2 15 6
+#send 1
+1
+#continue 1
+#log
+1 3 0
+#send 2
+1 3 0
+#send 2
+2
+#continue 2
+#log
+2 13 4
+#send 1
+2 13 4
+#send 1
+1
+#continue 1
+#log
+1 17 1
+#send 2
+1 17 1
+#send 2
+2
+#continue 2
+#log
+2 2 5
+#send 1
+2 2 5
+#send 1
+1
+#continue 1
+#log
+1 2 13
+#send 2
+1 2 13
+#send 2
+2
+#continue 2
+#log
+2 3 16
+#send 1
+2 3 16
+#send 1
+1
+#continue 1
+#log
+1 5 1
+#send 2
+1 5 1
+#send 2
+2
+#continue 2
+#log
+2 17 5
+#send 1
+2 17 5
+#send 1
+1
+#continue 1
+#log
+1 17 16
+#send 2
+1 17 16
+#send 2
+2
+#continue 2
+#log
+2 4 13
+#send 1
+2 4 13
+#send 1
+1
+#continue 1
+#log
+1 0 4
+#send 2
+1 0 4
+#send 2
+2
+#continue 2
+#log
+2 8 14
+#send 1
+2 8 14
+#send 1
+1
+#continue 1
+#log
+1 1 6
+#send 2
+1 1 6
+#send 2
+2
+#continue 2
+#log
+2 1 7
+#send 1
+2 1 7
+#send 1
+1
+#continue 1
+#log
+1 5 17
+#send 2
+1 5 17
+#send 2
+2
+#continue 2
+#log
+2 3 18
+#send 1
+2 3 18
+#send 1
+1
+#continue 1
+#log
+1 12 2
+#send 2
+1 12 2
+#send 2
+2
+#continue 2
+#log
+2 12 13
+#send 1
+2 12 13
+#send 1
+1
+#continue 1
+#log
+1 6 3
+#send 2
+1 6 3
+#send 2
+2
+#continue 2
+#log
+2 4 7
+#send 1
+2 4 7
+#send 1
+1
+#continue 1
+#log
+1 2 9
+#send 2
+1 2 9
+#send 2
+2
+#continue 2
+#log
+2 16 0
+#send 1
+2 16 0
+#send 1
+1
+#continue 1
+#log
+1 15 17
+#send 2
+1 15 17
+#send 2
+2
+#continue 2
+#log
+2 18 13
+#send 1
+2 18 13
+#send 1
+1
+#continue 1
+#log
+1 0 2
+#send 2
+1 0 2
+#send 2
+2
+#continue 2
+#log
+2 11 15
+#send 1
+2 11 15
+#send 1
+1
+#continue 1
+#log
+1 3 15
+#send 2
+1 3 15
+#send 2
+2
+#continue 2
+#log
+2 13 5
+#send 1
+2 13 5
+#send 1
+1
+#continue 1
+#log
+1 4 3
+#send 2
+1 4 3
+#send 2
+2
+#continue 2
+#log
+2 7 8
+#send 1
+2 7 8
+#send 1
+1
+#continue 1
+#log
+1 10 10
+#send 2
+1 10 10
+#send 2
+2
+#continue 2
+#log
+2 16 15
+#send 1
+2 16 15
+#send 1
+1
+#continue 1
+#log
+1 14 18
+#send 2
+1 14 18
+#send 2
+2
+#continue 2
+#log
+2 15 13
+#send 1
+2 15 13
+#send 1
+1
+#continue 1
+#log
+1 9 13
+#send 2
+1 9 13
+#send 2
+2
+#continue 2
+#log
+2 12 18
+#send 1
+2 12 18
+#send 1
+1
+#continue 1
+#log
+1 9 15
+#send 2
+1 9 15
+#send 2
+2
+#continue 2
+#log
+2 11 18
+#send 1
+2 11 18
+#send 1
+1
+#continue 1
+#log
+1 6 17
+#send 2
+1 6 17
+#send 2
+2
+#continue 2
+#log
+2 2 4
+#send 1
+2 2 4
+#send 1
+1
+#continue 1
+#log
+1 11 11
+#send 2
+1 11 11
+#send 2
+2
+#continue 2
+#log
+2 16 3
+#send 1
+2 16 3
+#send 1
+1
+#continue 1
+#log
+1 7 12
+#send 2
+1 7 12
+#send 2
+2
+#continue 2
+#log
+2 16 17
+#send 1
+2 16 17
+#send 1
+1
+#continue 1
+#log
+1 6 10
+#send 2
+1 6 10
+#send 2
+2
+#continue 2
+#log
+2 12 14
+#send 1
+2 12 14
+#send 1
+1
+#continue 1
+#log
+1 10 14
+#send 2
+1 10 14
+#send 2
+2
+#continue 2
+#log
+2 10 6
+#send 1
+2 10 6
+#send 1
+1
+#continue 1
+#log
+1 7 17
+#send 2
+1 7 17
+#send 2
+2
+#continue 2
+#log
+2 9 3
+#send 1
+2 9 3
+#send 1
+1
+#continue 1
+#log
+1 6 1
+#send 2
+1 6 1
+#send 2
+2
+#continue 2
+#log
+2 11 3
+#send 1
+2 11 3
+#send 1
+1
+#continue 1
+#log
+1 16 16
+#send 2
+1 16 16
+#send 2
+2
+#continue 2
+#log
+2 15 0
+#send 1
+2 15 0
+#send 1
+1
+#continue 1
+#log
+1 10 16
+#send 2
+1 10 16
+#send 2
+2
+#continue 2
+#log
+2 0 3
+#send 1
+2 0 3
+#send 1
+1
+#continue 1
+#log
+1 1 4
+#send 2
+1 1 4
+#send 2
+2
+#continue 2
+#log
+2 3 14
+#send 1
+2 3 14
+#send 1
+1
+#continue 1
+#log
+1 0 16
+#send 2
+1 0 16
+#send 2
+2
+#continue 2
+#log
+2 15 8
+#send 1
+2 15 8
+#send 1
+1
+#continue 1
+#log
+1 2 8
+#send 2
+1 2 8
+#send 2
+2
+#continue 2
+#log
+2 12 17
+#send 1
+2 12 17
+#send 1
+1
+#continue 1
+#log
+1 8 0
+#send 2
+1 8 0
+#send 2
+2
+#continue 2
+#log
+2 10 7
+#send 1
+2 10 7
+#send 1
+1
+#continue 1
+#log
+1 4 2
+#send 2
+1 4 2
+#send 2
+2
+#continue 2
+#log
+2 6 4
+#send 1
+2 6 4
+#send 1
+1
+#continue 1
+#log
+1 6 6
+#send 2
+1 6 6
+#send 2
+2
+#continue 2
+#log
+2 0 7
+#send 1
+2 0 7
+#send 1
+1
+#continue 1
+#log
+1 10 2
+#send 2
+1 10 2
+#send 2
+2
+#continue 2
+#log
+2 3 17
+#send 1
+2 3 17
+#send 1
+1
+#continue 1
+#log
+1 1 0
+#send 2
+1 1 0
+#send 2
+2
+#continue 2
+#log
+2 8 13
+#send 1
+2 8 13
+#send 1
+1
+#continue 1
+#log
+1 17 17
+#send 2
+1 17 17
+#send 2
+2
+#continue 2
+#log
+2 6 14
+#send 1
+2 6 14
+#send 1
+1
+#continue 1
+#log
+1 18 5
+#send 2
+1 18 5
+#send 2
+2
+#continue 2
+#log
+2 9 12
+#send 1
+2 9 12
+#send 1
+1
+#continue 1
+#log
+1 4 14
+#send 2
+1 4 14
+#send 2
+2
+#continue 2
+#log
+2 4 8
+#send 1
+2 4 8
+#send 1
+1
+#continue 1
+#log
+1 1 10
+#send 2
+1 1 10
+#send 2
+2
+#continue 2
+#log
+2 12 9
+#send 1
+2 12 9
+#send 1
+1
+#continue 1
+#log
+1 13 14
+#send 2
+1 13 14
+#send 2
+2
+#continue 2
+#log
+2 6 16
+#send 1
+2 6 16
+#send 1
+1
+#continue 1
+#log
+1 5 12
+#send 2
+1 5 12
+#send 2
+2
+#continue 2
+#log
+2 3 6
+#send 1
+2 3 6
+#send 1
+1
+#continue 1
+#log
+1 4 9
+#send 2
+1 4 9
+#send 2
+2
+#continue 2
+#win 2
+0 1 
+Good!

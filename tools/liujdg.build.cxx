@@ -36,18 +36,26 @@ int main(int argc, char const *argv[]) {
         return -1;
     }
     std::string data = useStdin ? LreadFile(in) : LreadFile(in, (size_t)fs::file_size(argv[1]));
-
     LGameInfo info;
-    info.fromString(data, true); // no check command
+    
+    try {
+        info.fromString(data); // no check command
 
-    auto ret = LgetFilePath(argv[1]);
+        // set current path to the config.basedir in json
+        fs::current_path(info.config.basedir);
+    } catch (std::exception& err) {
+        cerr << LINFO + "Error when init what()=" << err.what() << "\n" << endl;
+        return -1;
+    }
+
     std::error_code ec;
-    // set current path to the json file
-    if (ret.has_value()) fs::current_path(ret.value(), ec);
-
     std::string path = fs::current_path().string();
-
-    fs::create_directories(info.config.logdir);
+    try {
+        fs::create_directories(info.config.logdir);
+    } catch (std::exception& err) {
+        cerr << "Failed to create log dir. what()=" << err.what() << "\n" << endl;
+        return -1;
+    }
 
     // the function will return rc
     int rc = 0;

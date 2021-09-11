@@ -7,51 +7,57 @@
 
 
 ## 构建
-
 ```bash
-$ git clone https://github.com/zwongeer/liujdg.git && cd liujdg
+git clone https://github.com/zwongeer/liujdg.git && cd liujdg
+```
+#### 安装依赖
+- Debian/Ubuntu
+```bash
+sudo apt install cmake build-essential python3 libfmt-dev librestinio-dev libboost-thread-dev libboost-chrono-dev libsoci-dev libsoci-sqlite3-4.0 libsoci-core4.0 rapidjson-dev nlohmann-json3-dev libasio-dev libsqlite3-dev -y
+```
+- Arch Linux
+```bash
+sudo pacman -S boost cmake nlohmann-json rapidjson restinio
+yay -S soci
 ```
 
 考录到github在某片神奇的土地上访问较慢，如果你是在刘某人的VPS上构建，可以使用下面的命令，这样应该会快很多
 _(该仓库地址只能通过刘某人的VPS访问)_
 ```bash
-$ git clone https://cdn.aioj.ac/zwongeer/liujdg.git && cd liujdg
+git clone https://cdn.aioj.ac/zwongeer/liujdg.git && cd liujdg
 ```
 
 ```bash
-$ mkdir build && cd build
-$ cmake .. && make
+./configure
+cd build && make
 ```
 
 也可以
 
 ```
-$ ./build.sh
+./configure
+./mbuild.sh
 ```
 
-`./build.sh`在构建完成时会提示是否安装
+`./mbuild.sh`在构建完成时会提示是否安装
 
 #### 系统
 
-在以下系统编译通过：
-- `Arch Linux`
-- `CentOS 8`
-- `Debian 10`
-- `Ubuntu 20.04`
+- 理论上Linux系列都可以使用
 
 ## 安装
 
 _需要root权限_
 
 ```bash
-$ cd build
-# ./liujdg.install
+cd build
+./liujdg.install
 ```
 
 ## 运行
 
 ```
-$ liujdg.run <json配置文件路径> [错误日志路径]
+liujdg.run <json配置文件路径> [错误日志路径]
 ```
 
 ## 卸载
@@ -59,7 +65,7 @@ $ liujdg.run <json配置文件路径> [错误日志路径]
 _需要root权限_
 
 ```
-# liujdg.uninstall
+liujdg.uninstall
 ```
 
 

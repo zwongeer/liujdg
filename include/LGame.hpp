@@ -30,6 +30,9 @@ struct LGame {
     LGame& operator = (LGame&&) = default;
     virtual ~LGame();
     
+    // this funciton should not be called if LGame is inited except the default constructor
+    void fromString(const std::string& str);
+    
     void init();
     void run();
     void nextStep();

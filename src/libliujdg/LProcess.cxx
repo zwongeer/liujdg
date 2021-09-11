@@ -19,6 +19,8 @@
 #include "LProcess.hpp"
 
 LProcess::LProcess (const std::string& command, const std::string& currentDir) {
+    stdinPipeClosed = false;
+    status = Status::NONE;
     if (!LcheckCommand(command) && !LcheckCommand(currentDir + command)) throw std::runtime_error("the command: `" + command + "` cannot be executed");
     if (!LcheckDirectory(currentDir)) throw std::runtime_error("cannot access the directory:[" + currentDir + "]");
     if (pipe(pipestdinfd)) throw std::runtime_error("failed to create a pipestdin");
@@ -29,6 +31,9 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
 
     if (pid < 0) throw std::runtime_error("failed to create a subprogress");
     if (pid == 0) {
+        close(pipestdinfd[1]);
+        close(pipestdoutfd[0]);
+        close(pipestderrfd[0]);
         // run in child
         chdir(currentDir.c_str());
 
@@ -62,18 +67,16 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
     c_p_to_child = fdopen(pipestdinfd[1], "w");
     fd_to_child = fileno(c_p_to_child);
 
-    p_inbuf = new __gnu_cxx::stdio_filebuf<char>(fd_from_child, std::ios::in);
-    p_outbuf = new __gnu_cxx::stdio_filebuf<char>(fd_to_child, std::ios::out);
-    p_errbuf = new __gnu_cxx::stdio_filebuf<char>(fd_stderr_child, std::ios::in);
+    p_inbuf = new __gnu_cxx::stdio_filebuf<char>(fd_from_child, std::ios::in); // stdout
+    p_outbuf = new __gnu_cxx::stdio_filebuf<char>(fd_to_child, std::ios::out); // stdin
+    p_errbuf = new __gnu_cxx::stdio_filebuf<char>(fd_stderr_child, std::ios::in); //stderr
 
-    p_from_child = new std::istream((__gnu_cxx::stdio_filebuf<char>*)p_inbuf);
-    p_stderr = new std::istream((__gnu_cxx::stdio_filebuf<char>*)p_errbuf);
-    p_to_child = new std::ostream((__gnu_cxx::stdio_filebuf<char>*)p_outbuf);
+    p_from_child = new std::istream((__gnu_cxx::stdio_filebuf<char>*)p_inbuf); // stdout
+    p_stderr = new std::istream((__gnu_cxx::stdio_filebuf<char>*)p_errbuf); //stderr
+    p_to_child = new std::ostream((__gnu_cxx::stdio_filebuf<char>*)p_outbuf); // stdin
 
     p_from_child->tie(p_to_child);
     p_stderr->tie(p_to_child);
-
-    // std::thread(Attack204_updateKilled, pid, std::ref(status), std::ref(killed)).detach();
 }
 
 int LProcess::getpid () {
@@ -87,23 +90,36 @@ void LProcess::kill() {
 }
 
 LProcess::~LProcess() {
+    if (!stdinPipeClosed) {
+        fclose(c_p_to_child);
+        delete (__gnu_cxx::stdio_filebuf<char>*)p_outbuf;
+        delete p_to_child;
+        close(pipestdinfd[1]);
+    }
     fclose(c_p_from_child);
-    fclose(c_p_to_child);
     fclose(c_p_stderr);
 
     delete (__gnu_cxx::stdio_filebuf<char>*)p_errbuf;
     delete (__gnu_cxx::stdio_filebuf<char>*)p_inbuf;
-    delete (__gnu_cxx::stdio_filebuf<char>*)p_outbuf;
 
     delete p_from_child;
-    delete p_to_child;
     delete p_stderr;
     
-    close(pipestdinfd[1]);
     close(pipestdoutfd[0]);
     close(pipestderrfd[0]);
     
     this->kill();
+}
+
+void LProcess::closeInPipe() {
+    if (stdinPipeClosed) return;
+    p_from_child->tie(nullptr);
+    p_stderr->tie(nullptr);
+    fclose(c_p_to_child);
+    delete (__gnu_cxx::stdio_filebuf<char>*)p_outbuf;
+    delete p_to_child;
+    close(pipestdinfd[1]);
+    stdinPipeClosed = true;
 }
 
 std::ostream& LProcess::stdin() {
