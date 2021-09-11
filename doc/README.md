@@ -1,7 +1,8 @@
 # 目录
 - [liujdg.build](build/)
-
-- [liujdg.deamon](deamon/)
-
+	- 构建对局
+- [liujdg.deamon & API](deamon/)
+	- 提供web api
 - [liujdg.run](run/)
+	- 运行对局
 
