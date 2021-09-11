@@ -1,7 +1,0 @@
-giao
-2
-data/
-giao
-giao
-giao
-end

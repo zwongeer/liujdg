@@ -1,3 +1,0 @@
-{"player_realid": 1, "random_id" : 2}
-{"player_realid": 2, "random_id" : 1}
-test log

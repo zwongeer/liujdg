@@ -1,2 +1,0 @@
-[runtime_error]:In f:nextStep  file:/home/es/mdata/Projects/liujdg/src/libliujdg/LGame.cxx line:166
-in player[attack204-0] Time Limit Exceeded!
