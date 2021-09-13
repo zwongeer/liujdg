@@ -23,15 +23,16 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
     
     std::error_code ec;
     fs::path cwd;
+    pstdin_ = std::make_unique<boost::process::opstream>();
     cwd = fs::current_path();
     fs::current_path(currentDir);
     c = bp::child(command,
         // boost::process::extend::on_setup = [&](auto & exec)->void{fs::current_path(currentDir);},
-        bp::std_in < stdin_, bp::std_out > stdout_, bp::std_err > stderr_);
+        bp::std_in < *pstdin_, bp::std_out > stdout_, bp::std_err > stderr_);
     fs::current_path(cwd);
     
-    stdout_.tie(&stdin_);
-    stderr_.tie(&stdin_);
+    stdout_.tie(pstdin_.get());
+    stderr_.tie(pstdin_.get());
 }
 
 LProcess::~LProcess() {
@@ -46,7 +47,7 @@ void LProcess::wait() {
 }
 
 std::ostream& LProcess::getStdin() {
-    return stdin_;
+    return *pstdin_;
 }
 
 std::istream& LProcess::getStdout() {
@@ -77,7 +78,8 @@ void LProcess::kill() {
 void LProcess::closeInPipe() {
     stderr_.tie(nullptr);
     stdout_.tie(nullptr);
-    stdin_.close();
+    pstdin_->close();
+    pstdin_ = std::make_unique<boost::process::opstream>();
     inPipeClosed = true;
 }
 

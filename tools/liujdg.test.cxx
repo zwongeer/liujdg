@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
     try {
-        LProcess_container pro("liujdg.run -");
+        LProcess_container pro(liujdg::RUN);
         pro.getStdin() << "not a json!" << std::endl;
         pro.closeInPipe();
         cout << "F:" << (pro.isRunning()) << endl;

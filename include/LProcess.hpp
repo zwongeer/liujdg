@@ -2,6 +2,7 @@
 
 #include <atomic>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <optional>
 
@@ -12,7 +13,7 @@ struct LProcess {
     boost::process::child c;
     boost::process::ipstream stdout_;
     boost::process::ipstream stderr_;
-    boost::process::opstream stdin_;
+    std::unique_ptr<boost::process::opstream> pstdin_;
 
     LProcess() = delete;
     LProcess(const std::string& commmand, const std::string& currentDir = ".");

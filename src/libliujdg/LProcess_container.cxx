@@ -218,5 +218,5 @@ void LProcess_container::waitEventList() {
 void LProcess_container::writeTo(std::string_view sv) {
     if (!isRunning()) return;
     // return ::write(process->fd_to_child, sv.data(), sv.size() / sizeof (char));
-    process->stdin_.write(sv.data(), sv.size() / sizeof (char));
+    process->getStdin().write(sv.data(), sv.size() / sizeof (char));
 }

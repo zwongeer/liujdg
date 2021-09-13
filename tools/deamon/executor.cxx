@@ -73,7 +73,7 @@ void exe_thread_f() {
                     std::cerr << LINFO << "Database error:" << err.what() << std::endl;
                     std::cerr << "id:" << processes.front().second << std::endl;
                 }
-                pro = std::move(LProcess_container("liujdg.build -"));
+                pro = std::move(LProcess_container(liujdg::BUILD));
                 pro.getStdin() << processes.front().first.toString() << std::endl;
                 pro.closeInPipe();
                 type = Task_type::BUILD;
@@ -120,7 +120,7 @@ void exe_thread_f() {
                         std::cerr << LINFO << "Database error:" << err.what() << std::endl;
                         std::cerr << "id:" << processes.front().second << std::endl;
                     }
-                    pro = std::move(LProcess_container("liujdg.run -"));
+                    pro = std::move(LProcess_container(liujdg::RUN));
                     // pass the json file
                     pro.getStdin() << processes.front().first.toString() << std::endl;
                     // close stdin, so liujdg will finish reading the json file
