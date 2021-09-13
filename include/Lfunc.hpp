@@ -43,5 +43,6 @@ inline auto Lget_seconds_since_epoch() {
 std::optional<std::string> LgetFilePath(const std::string& file);
 
 namespace liujdg {
+    constexpr const char* NULLFILE = "/dev/null";
     extern std::ofstream devNull;
 }

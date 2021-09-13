@@ -8,9 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "LProcess.hpp"
-
-typedef LProcess::Status LPStatus;
+struct LProcess;
 
 struct LProcess_container { 
     static constexpr int LENGTHLIMIT = 4096;
@@ -27,22 +25,21 @@ struct LProcess_container {
     LProcess_container(LProcess_container&& );
     LProcess_container& operator = (LProcess_container&&);
     
-    ssize_t writeTo(std::string_view sv);
+    void writeTo(std::string_view sv);
     bool wait_for_getline(char* ret, int seconds = -1); // String Length Limit 4096
     bool hasNewMessage(); // the function wait 1 second to check whether there is a new message from stdout without extracting any content
 
     int getpid();
     void kill();
-    LPStatus wait();
-    std::ostream& stdin();
-    std::istream& stdout();
-    std::istream& stderr();
+    void wait();
+    std::ostream& getStdin();
+    std::istream& getStdout();
+    std::istream& getStderr();
     std::optional<int> getReturnValue();
-    std::optional<int> getSignal(); // get the received signal
-    void flush();
     bool isRunning();
     void lock();
     void unlock();
+    void closeInPipe();
 
     bool wait_or_kill(int lim); // kill the process if it doesn't exist in the time limit, return true if it exists normally
 

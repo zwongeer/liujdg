@@ -2,14 +2,12 @@
 #include <iostream>
 #include <string>
 
-#include <unistd.h>
 std::string script = R"attack204(
 #!/usr/bin/bash
 if [ `whoami` = "root" ];then
     SHELL_FOLDER=$(dirname $(readlink -f "$0"))
     cd $SHELL_FOLDER
     make install >/dev/null 2>/dev/null
-    install -D -m 0755 ./liujdg.run /usr/local/bin/
     install -D -m 0755 ./tools/liujdg.* /usr/local/bin/
 	echo "Success"
 else

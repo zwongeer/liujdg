@@ -15,6 +15,9 @@ set(LIBLIUJDG_STATIC ${LIBLIUJDG}-static)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+add_compile_options("/std:c++latest")
+add_compile_options("-D_WIN32_WINNT=0x0601")
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/liujdg_version.hpp.in 
     generated/${LIUJDG}/liujdg_version.hpp
@@ -31,11 +34,6 @@ target_include_directories(libliujdg
 	PRIVATE
 		src/libliujdg
 )
-
-# liujdg main program
-add_executable(liujdg.run liujdg.run.cxx)
-
-target_link_libraries(liujdg.run libliujdg)
 
 add_executable(liujdg.install liujdg.install.cxx)
 

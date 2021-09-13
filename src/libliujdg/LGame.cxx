@@ -1,13 +1,14 @@
 #include <cctype>
+#include <cstdlib>
 
 #include <algorithm>
 #include <chrono>
+#include <filesystem>
+#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <string_view>
 #include <vector>
-
-#include <unistd.h>
 
 #include "Lfunc.hpp"
 #include "LGame.hpp"
@@ -22,18 +23,19 @@ void LGame::fromString(const std::string& str) {
         if (gameInfo.config.logdir != "")
             outFiles[i].open(( gameInfo.config.logdir + std::to_string(i) + ".txt").c_str());
         else
-            outFiles[i].open("/dev/null");
+            outFiles[i].open(liujdg::NULLFILE);
         if (!outFiles[i]) throw std::runtime_error("Cannot open the output files");
     }
     if (gameInfo.config.logdir != "") judger_logFile.open((gameInfo.config.logdir + "judger_log.txt").c_str());
-    else judger_logFile.open("/dev/null");
+    else judger_logFile.open(liujdg::NULLFILE);
 
     
     for (int i = 0; i < peopleIndex.size(); ++i)
         peopleIndex[i] = i;
 
     // generate random id for players
-    std::random_shuffle(peopleIndex.begin() + 1, peopleIndex.end());
+    std::mt19937 g(rand());
+    std::shuffle(peopleIndex.begin() + 1, peopleIndex.end(), g);
 
     // map the id
     for (int i = 0; i < peopleIndex.size(); ++i)
@@ -59,7 +61,7 @@ void LGame::init() {
     if (gameInfo.config.basedir == ".")
         lpass();
     else if (LcheckDirectory(gameInfo.config.basedir, errMessage))
-        chdir(gameInfo.config.basedir.c_str());
+        std::filesystem::current_path(gameInfo.config.basedir.c_str());
     else throw std::runtime_error(errMessage);
 
     if (!LcheckDirectory(gameInfo.config.logdir, errMessage)) throw std::runtime_error(errMessage);
@@ -77,17 +79,17 @@ void LGame::run() {
     // 1.number of players (note that the playersNumber = peopleNumber - 1)
     // 2.path to store data (note that in the sandbox the path is the only folder that the process can access) 
                             //{BTW the sandbox is not implemented} 
-    processes[0].stdin() << gameInfo.getPeopleNum() - 1 << std::endl;
-    processes[0].stdin() << gameInfo.persons[0].folder << std::endl;
+    processes[0].getStdin() << gameInfo.getPeopleNum() - 1 << std::endl;
+    processes[0].getStdin() << gameInfo.persons[0].folder << std::endl;
 
     // passing the number of players, the player id, and the folder to store data to players (2 lines)
     // 1.number of players
     // 2.id
     // 3.path
     for (int i = 1; i < gameInfo.getPeopleNum(); ++i) {
-        processes[i].stdin() << gameInfo.getPeopleNum() - 1 << std::endl;
-        processes[i].stdin() << peopleIndex[i] << std::endl;
-        processes[i].stdin() << gameInfo.persons[i].folder << std::endl;
+        processes[i].getStdin() << gameInfo.getPeopleNum() - 1 << std::endl;
+        processes[i].getStdin() << peopleIndex[i] << std::endl;
+        processes[i].getStdin() << gameInfo.persons[i].folder << std::endl;
     }
 }
 
@@ -132,10 +134,10 @@ void LGame::nextStep() {
         // send the message (send to all players if id = 0)
         if (id != 0)
             for (int i = 0; i < playerList.size(); ++i)
-                processes[ indexForJudger.at(playerList[i]) ].stdin() << str << std::endl;
+                processes[ indexForJudger.at(playerList[i]) ].getStdin() << str << std::endl;
         else if (playerList.size() == 1)
             for (int i = 1; i < gameInfo.getPeopleNum(); ++i)
-                processes[i].stdin() << str << std::endl;
+                processes[i].getStdin() << str << std::endl;
         else
             throw std::runtime_error(LINFO + "Judger `Send` Syntax Error");
 
@@ -168,7 +170,7 @@ void LGame::nextStep() {
 
         // send message to the judger
         // PLAYER_ID [MESSAGE]
-        processes[0].stdin() << id << " " << str << std::endl;
+        processes[0].getStdin() << id << " " << str << std::endl;
 
     }
     else if (command == WIN) {

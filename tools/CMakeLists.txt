@@ -10,7 +10,7 @@ function(add_file_cxx exec_name)
     add_executable(${exec_name} ${exec_name}.cxx)
     # message("Name = " &{exec_name})
     # message("LINK LIBS = " ${LIBS})
-    target_link_libraries(${exec_name} ${LIBS})
+    target_link_libraries(${exec_name} PRIVATE ${LIBS})
     # target_include_directories(${exec_name} PRIVATE
     #     "${PROJECT_BINARY_DIR}"
     #     "${PROJECT_SOURCE_DIR}/include"
@@ -18,15 +18,17 @@ function(add_file_cxx exec_name)
 endfunction()
 
 add_file_cxx(liujdg.true)
-
-set(LIBS libliujdg pthread)
+find_package(fmt REQUIRED)
+find_package(CURL CONFIG REQUIRED)
+find_package(Boost COMPONENTS chrono filesystem thread system random REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
+set(LIBS libliujdg ${Boost_LIBRARIES} fmt::fmt)
 add_file_cxx(liujdg.test ${LIBS})
 add_file_cxx(liujdg.build ${LIBS})
+add_file_cxx(liujdg.run ${LIBS})
 
-find_package(fmt REQUIRED)
-find_package(restinio REQUIRED)
 add_subdirectory(deamon)
-set(LIBS libliujdg_deamon soci_sqlite3 soci_core restinio::restinio ${LIBS})
+set(LIBS libliujdg_deamon bcrypt CURL::libcurl libliujdg)
 add_file_cxx(liujdg.deamon ${LIBS})
 
 install(FILES "liujdg.uninstall.sh"

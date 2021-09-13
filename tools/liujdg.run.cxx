@@ -7,8 +7,6 @@
 #include <stdexcept>
 #include <string>
 
-#include <unistd.h>
-
 #include "Lfunc.hpp"
 #include "LGame.hpp"
 
@@ -18,7 +16,7 @@ int main(int argc, char const *argv[]) {
         std::cerr << "Syntax Error!" << std::endl;
         LExit(1);
     }
-    std::ofstream errorLogFile("/dev/null");
+    std::ofstream errorLogFile(liujdg::NULLFILE);
     
     bool useStdin = strcmp(argv[1], "-") == 0;
     std::ifstream fin;
@@ -32,7 +30,7 @@ int main(int argc, char const *argv[]) {
         LfuncInit();
         if (!useStdin) {
             auto path = LgetFilePath(argv[1]);
-            if (path.has_value()) ::chdir(path.value().c_str());
+            if (path.has_value()) std::filesystem::current_path(path.value().c_str());
         }
         std::string str = LreadFile(in);
         LGameInfo info;

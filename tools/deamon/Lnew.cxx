@@ -19,17 +19,17 @@ void Lapi_new(std::unique_ptr<router_t>& router, const liujdg_deamon_config& con
         realLogdir = (fs::path(info.config.basedir) / fs::path(info.config.logdir)).string();
         lockguard lock(mutex_pro);
         sql_session << "insert into tasks (id, status, logpath) values (:id, :status, :logpath);"
-            , soci::use(id), soci::use(api_status::RECEIVED), soci::use(realLogdir);
+            , soci::use(id), soci::use(api_status_RECEIVED), soci::use(realLogdir);
         task_ task = { std::move(info), id };
         processes.push(std::move(task));
         // processes.emplace(info, id);
     } catch (std::exception& e) {
-        nlohmann::json ret = {{"status", api_status::ERROR}, {"message", e.what()}};
+        nlohmann::json ret = {{"status", api_status_ERROR}, {"message", e.what()}};
         return init_response_json(req->create_response(restinio::status_bad_request()))
             .set_body(ret.dump(4))
             .done();
     }
-    nlohmann::json ret = {{"status", api_status::RECEIVED}, {"id", id} };
+    nlohmann::json ret = {{"status", api_status_RECEIVED}, {"id", id} };
     return init_response_text(req->create_response())
             .set_body(ret.dump(4))
             .done();

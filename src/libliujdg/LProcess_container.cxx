@@ -4,14 +4,6 @@
 #include <stdexcept>
 #include <utility>
 
-#include <ext/stdio_filebuf.h>
-#include <fcntl.h>
-#include <pthread.h>
-#include <signal.h>
-#include <sys/wait.h>
-#include <sys/prctl.h>
-#include <unistd.h>
-
 #include "Lfunc.hpp"
 #include "LProcess.hpp"
 #include "LProcess_container.hpp"
@@ -48,9 +40,9 @@ bool LProcess_container::wait_for_getline(char* ret, int seconds) {
                 bool lengthLimitExceeded = false;
                 mutex.lock();
                 char* pstr = new char[LENGTHLIMIT + 1];
-                ssize_t readSize = 0;
+                size_t readSize = 0;
                 char ch;
-                while (::read(process->fd_from_child, &ch, 1) != 0 && ch != '\n') {
+                while ( process->stdout_.read(&ch, 1) && ch != '\n') {
                     pstr[readSize++] = ch;
                     if (readSize == LENGTHLIMIT) {
                         lengthLimitExceeded = true;
@@ -99,11 +91,11 @@ bool LProcess_container::hasNewMessage() {
             std::async([&]()->std::pair<std::string, bool>{
                 bool lengthLimitExceeded = false;
                 mutex.lock();
-                process->flush();
                 char* pstr = new char[LENGTHLIMIT + 1];
-                ssize_t readSize = 0;
+                size_t readSize = 0;
                 char ch;
-                while (::read(process->fd_from_child, &ch, 1) != 0 && ch != '\n') {
+                // while (::read(process->fd_from_child, &ch, 1) != 0 && ch != '\n') {
+                while ( process->stdout_.read(&ch, 1) && ch != '\n') {
                     pstr[readSize++] = ch;
                     if (readSize == LENGTHLIMIT) {
                         lengthLimitExceeded = true;
@@ -152,7 +144,7 @@ bool LProcess_container::wait_or_kill(int lim) {
     }));
     std::future_status sta = fu.wait_for(std::chrono::seconds(lim));
     if (sta != std::future_status::ready) {
-        ::kill(getpid(), SIGKILL);
+        process->kill();
         return false;
     }
     return true;
@@ -167,7 +159,12 @@ int LProcess_container::getpid() {
     return process->getpid();
 }
 
-LProcess::Status LProcess_container::wait() {
+void LProcess_container::closeInPipe() {
+    if (!process) throw std::runtime_error("LProcess_container is not initialized");
+    return process->closeInPipe();
+}
+
+void LProcess_container::wait() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
     return process->wait();
 }
@@ -176,39 +173,28 @@ void LProcess_container::kill() {
     process->kill();
 }
 
-std::ostream& LProcess_container::stdin() {
+std::ostream& LProcess_container::getStdin() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
     // if (!isRunning()) throw std::runtime_error("LProcess_container is not running");
     // set bad bit instead of throw
     if (!isRunning())
-        process->stdin().clear(std::ios::badbit);
-    return process->stdin();
+        process->getStdin().clear(std::ios::badbit);
+    return process->getStdin();
 }
 
-std::istream& LProcess_container::stdout() {
+std::istream& LProcess_container::getStdout() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
-    return process->stdout();
+    return process->getStdout();
 }
 
-std::istream& LProcess_container::stderr() {
+std::istream& LProcess_container::getStderr() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
-    return process->stderr();
+    return process->getStderr();
 }
-
-void LProcess_container::flush() {
-    if (!process) throw std::runtime_error("LProcess_container is not initialized");
-    process->flush();
-}
-
 
 std::optional<int> LProcess_container::getReturnValue() {
     if (!process) throw std::runtime_error("LProcess_container is not initialized");
     return process->getReturnValue();
-}
-
-std::optional<int> LProcess_container::getSignal() {
-    if (!process) throw std::runtime_error("LProcess_container is not initialized");
-    return process->getSignal();
 }
 
 bool LProcess_container::isRunning() {
@@ -229,7 +215,8 @@ void LProcess_container::waitEventList() {
         delete eventList[i];
 }
 
-ssize_t LProcess_container::writeTo(std::string_view sv) {
-    if (!isRunning()) return -1;
-    return ::write(process->fd_to_child, sv.data(), sv.size() / sizeof (char));
+void LProcess_container::writeTo(std::string_view sv) {
+    if (!isRunning()) return;
+    // return ::write(process->fd_to_child, sv.data(), sv.size() / sizeof (char));
+    process->stdin_.write(sv.data(), sv.size() / sizeof (char));
 }
