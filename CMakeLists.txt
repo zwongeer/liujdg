@@ -15,6 +15,11 @@ set(LIBLIUJDG_STATIC ${LIBLIUJDG}-static)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+if(WIN32)
+	add_compile_options("/std:c++17")
+	add_compile_options("-D_WIN32_WINNT=0x0601")
+endif()
+
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/liujdg_version.hpp.in 
     generated/${LIUJDG}/liujdg_version.hpp
