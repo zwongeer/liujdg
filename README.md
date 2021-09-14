@@ -1,4 +1,5 @@
 #  刘稼级
+`liujdg` is the abbreviation for `Liu Laoye's judge`.
 
 ` 刘稼级`是[大一年度项目](https://aioj.ac/) 的一部分。可以运行一系列子程序，并且记录子程序的`stdout`。
 
