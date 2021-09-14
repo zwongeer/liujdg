@@ -3,29 +3,22 @@
 #include <ctime>
 #include <filesystem>
 
-#include <unistd.h>
+#include <boost/process/search_path.hpp>
 
 #include "Lfunc.hpp"
 
 bool LcheckCommand(const std::string& command) {
-    std::string tmp = command;
-    for (size_t i = 0; i < command.size(); ++i) {
-        if (command[i] == ' ') {
-            tmp = command.substr(0, i);
-            break;
-        }
-    }
-    return system( (std::string("which '") + tmp + std::string("' >/dev/null 2>/dev/null")).c_str() ) == 0;
+    return boost::process::search_path(command).empty();
 }
 
 bool LcheckDirectory(const std::string& path, std::string& errMessage) {
     namespace fs = std::filesystem;
     if (fs::exists(path)) {
         if (fs::status(path).type() == fs::file_type::directory) {
-            if (::access(path.c_str(), W_OK) != 0) {
-                errMessage = '`' + path + '`' + "is not writable";
-                return false;
-            }
+            // if (::access(path.c_str(), W_OK) != 0) {
+            //     errMessage = '`' + path + '`' + "is not writable";
+            //     return false;
+            // }
         }
         else {
             errMessage = "`" + path + "` is not a directory";
@@ -40,11 +33,14 @@ bool LcheckDirectory(const std::string& path, std::string& errMessage) {
 
 bool LcheckDirectory(const std::string& path) {
     namespace fs = std::filesystem;
-    return fs::exists(path) && fs::status(path).type() == fs::file_type::directory && ::access(path.c_str(), W_OK) == 0;
+    // return fs::exists(path) && fs::status(path).type() == fs::file_type::directory && ::access(path.c_str(), W_OK) == 0;
+    return fs::exists(path) && fs::status(path).type() == fs::file_type::directory;
 }
 
 bool LcheckFileExists(const std::string& path) {
-    return ::access(path.c_str(), F_OK) == 0;
+    namespace fs = std::filesystem;
+    // return ::access(path.c_str(), F_OK) == 0;
+    return fs::exists(path) && fs::status(path).type() != fs::file_type::directory;
 }
 
 void LfuncInit() {
@@ -80,5 +76,5 @@ std::string_view LgetCommand(const char* command) {
 }
 
 namespace liujdg {
-    std::ofstream devNull("/dev/null");
+    std::ofstream devNull(NULLFILE);
 }

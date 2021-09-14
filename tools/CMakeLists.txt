@@ -19,14 +19,16 @@ endfunction()
 
 add_file_cxx(liujdg.true)
 
-set(LIBS libliujdg pthread)
+set(LIBS boost_filesystem boost_system boost_thread boost_chrono libliujdg pthread)
 add_file_cxx(liujdg.test ${LIBS})
 add_file_cxx(liujdg.build ${LIBS})
+add_file_cxx(liujdg.run ${LIBS})
 
 find_package(fmt REQUIRED)
 find_package(restinio REQUIRED)
+find_package(Boost COMPONENTS chrono filesystem thread system REQUIRED) 
 add_subdirectory(deamon)
-set(LIBS libliujdg_deamon soci_sqlite3 soci_core restinio::restinio ${LIBS})
+set(LIBS libliujdg_deamon soci_sqlite3 soci_core restinio::restinio curl libliujdg)
 add_file_cxx(liujdg.deamon ${LIBS})
 
 install(FILES "liujdg.uninstall.sh"

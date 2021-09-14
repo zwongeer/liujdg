@@ -4,6 +4,7 @@
 soci::session sql_session;
 std::queue<task_> processes;
 std::mutex mutex_pro;
+soci::backend_factory const &backEnd = *soci::factory_sqlite3();
 
 void to_json(nlohmann::json& j, const liujdg_deamon_config& cfg) {
     j = {

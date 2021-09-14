@@ -4,8 +4,6 @@
 #include <string>
 #include <vector>
 
-#include <unistd.h>
-
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"

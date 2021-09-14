@@ -43,5 +43,14 @@ inline auto Lget_seconds_since_epoch() {
 std::optional<std::string> LgetFilePath(const std::string& file);
 
 namespace liujdg {
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32)
+    constexpr const char* NULLFILE = "c:\\nul";
+    constexpr const char* BUILD = "liujdg.build.exe -";
+    constexpr const char* RUN = "liujdg.run.exe -";
+    #else
+    constexpr const char* NULLFILE = "/dev/null";
+    constexpr const char* BUILD = "liujdg.build -";
+    constexpr const char* RUN = "liujdg.run -";
+    #endif
     extern std::ofstream devNull;
 }

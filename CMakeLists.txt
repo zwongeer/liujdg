@@ -32,11 +32,6 @@ target_include_directories(libliujdg
 		src/libliujdg
 )
 
-# liujdg main program
-add_executable(liujdg.run liujdg.run.cxx)
-
-target_link_libraries(liujdg.run libliujdg)
-
 add_executable(liujdg.install liujdg.install.cxx)
 
 target_link_libraries(liujdg.install libliujdg)

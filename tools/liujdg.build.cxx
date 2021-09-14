@@ -7,8 +7,6 @@
 #include <stdexcept>
 #include <string>
 
-#include <unistd.h>
-
 #include "Lfunc.hpp"
 #include "LGame.hpp"
 #include "LGameInfo.hpp"
@@ -74,8 +72,8 @@ int main(int argc, char const *argv[]) {
             LProcess_container pro(person.build);
             if (!pro.wait_or_kill(info.config.buildTimeLimit)) throw std::runtime_error("Build time limit exceed");
             if (!pro.getReturnValue().has_value() || pro.getReturnValue().value() != 0)
-                throw std::runtime_error( "Build error:\n\033[;33m[stdout]:" + LreadFile( pro.stdout() ) + "\033[0m" + 
-                                        "\n\033[;34m[stderr]:" + LreadFile( pro.stderr() ) + "\033[0m" );
+                throw std::runtime_error( "Build error:\n\033[;33m[stdout]:" + LreadFile( pro.getStdout() ) + "\033[0m" + 
+                                        "\n\033[;34m[stderr]:" + LreadFile( pro.getStderr() ) + "\033[0m" );
         } catch(std::exception& err) {
             // \033[$BACKGROUND$;$FONT$m$str$\033[0m
             //   30:black

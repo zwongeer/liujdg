@@ -1,5 +1,6 @@
 FILE(GLOB libliujdg_files *.cxx)
 find_package(fmt REQUIRED)
+find_package(Boost COMPONENTS chrono filesystem thread system REQUIRED) 
 add_library(libliujdg STATIC ${libliujdg_files})
 target_link_libraries(libliujdg fmt -lm pthread stdc++fs)
 

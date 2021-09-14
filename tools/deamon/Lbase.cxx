@@ -10,6 +10,6 @@ void Lapi_base(std::unique_ptr<router_t>& router, const liujdg_deamon_config& co
         str_header += fmt::format("{}: {}\n", field.name(), field.value());
     });
     return init_response_text(req->create_response())
-        .set_body( fmt::format("Hello {}\nYou sent: \n{}\nPost:\n{}", liujdg::NAME + "-" + liujdg::VERSION, str_header, req->body()) )
+        .set_body( fmt::format("Hello {}\nYou sent: \n{}\nPost:\n{}", std::string(liujdg::NAME) + "-" + liujdg::VERSION, str_header, req->body()) )
         .done();
 });}
