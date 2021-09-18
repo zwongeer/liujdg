@@ -70,7 +70,7 @@ std::string_view LgetCommand(const char* command) {
     size_t pos;
     size_t len = std::strlen(command);
     for (pos = 0; pos < len; ++pos) {
-        if (command[pos] == ' ')
+        if (command[pos] == ' ' || command[pos] == '\r')
             break;
     }
     if (len == pos) return std::string_view(command);

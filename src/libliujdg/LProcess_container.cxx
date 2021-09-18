@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <utility>
 
+#include <boost/algorithm/string.hpp>
+
 #include "Lfunc.hpp"
 #include "LProcess.hpp"
 #include "LProcess_container.hpp"
@@ -53,6 +55,7 @@ bool LProcess_container::wait_for_getline(char* ret, int seconds) {
                 }
                 pstr[readSize] = '\0';
                 std::string ret = pstr;
+                boost::erase_all(ret, "\r");    
                 mutex.unlock();
                 delete[] pstr;
                 return {ret, lengthLimitExceeded};
@@ -106,6 +109,7 @@ bool LProcess_container::hasNewMessage() {
                 }
                 pstr[readSize] = '\0';
                 std::string ret = pstr;
+                boost::erase_all(ret, "\r");
                 mutex.unlock();
                 delete[] pstr;
                 return {ret, lengthLimitExceeded};
