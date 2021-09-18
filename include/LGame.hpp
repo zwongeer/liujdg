@@ -4,7 +4,13 @@
 
 #include "LGameInfo.hpp"
 #include "LGameResult.hpp"
-#include "LProcess_container.hpp"
+#include "LProcess_sandboxed_c.hpp"
+
+#if defined(_WIN32) || defined(WIN32) 
+#   define LIUJDG_USESANDBOX false
+#else
+#   define LIUJDG_USESANDBOX true
+#endif
 
 struct LGame {
     static constexpr const char* SEND = "#send";
@@ -15,7 +21,11 @@ struct LGame {
 
     LGameInfo gameInfo;
     LGameResult gameResult;
+    #if LIUJDG_USESANDBOX
+    std::vector<LProcess_sandboxed_c> processes;
+    #else
     std::vector<LProcess_container> processes;
+    #endif
     std::vector<std::ofstream> outFiles; // store the stdout of all processes
     std::ofstream judger_logFile;
     std::vector<int> peopleIndex; // random indexes for players

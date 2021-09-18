@@ -12,6 +12,17 @@
 git clone https://github.com/zwongeer/liujdg.git && cd liujdg
 ```
 #### 安装依赖
+
+- 沙盒支持（仅Linux）
+
+如果不想使用沙盒，可以将`include/LGame.hpp`中的`#define LIUJDG_USESANDBOX`改为false
+
+```bash
+sudo apt install firejail
+sudo pacman -S firejail
+```
+
+
 - Debian/Ubuntu
 ```bash
 sudo apt install cmake build-essential python3 libfmt-dev librestinio-dev libboost-thread-dev libboost-chrono-dev libsoci-dev libsoci-sqlite3-4.0 libsoci-core4.0 rapidjson-dev nlohmann-json3-dev libasio-dev libsqlite3-dev -y

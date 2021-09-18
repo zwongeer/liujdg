@@ -72,7 +72,11 @@ void LGame::run() {
     // run command, time limit, path
     
     for (int i = 0; i < gameInfo.getPeopleNum(); ++i){
+        #if LIUJDG_USESANDBOX
+        processes.push_back(LProcess_sandboxed_c(gameInfo.persons[i].run, gameInfo.config.timeLimit, gameInfo.persons[i].basedir, gameInfo.persons[i].folder));
+        #else
         processes.push_back(LProcess_container(gameInfo.persons[i].run, gameInfo.config.timeLimit, gameInfo.persons[i].basedir));
+        #endif
     }
     
     // passing the number of players to the judger (the index of the judger is 0)
@@ -106,7 +110,9 @@ void LGame::nextStep() {
     
     if (!flag)
         throw std::runtime_error(LINFO + "Judger Time Limit Exceeded!");
-    outFiles[0] << str << std::endl;
+    
+    if (strcmp(str, "") != 0) outFiles[0] << str << std::endl;
+    else if (!processes[0].isRunning()) throw std::runtime_error(LINFO + "Judger may not running!\n[stderr]:" + LreadFile(processes[0].getStderr()));
 
     std::string_view command = LgetCommand(str);
     int id, ret;

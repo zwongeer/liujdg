@@ -39,7 +39,8 @@ target_include_directories(libliujdg
 
 add_executable(liujdg.install liujdg.install.cxx)
 
-target_link_libraries(liujdg.install libliujdg)
+find_package(Boost COMPONENTS filesystem REQUIRED)
+target_link_libraries(liujdg.install PRIVATE libliujdg ${Boost_LIBRARIES})
 
 # install(TARGETS liujdg.run
 # 		ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

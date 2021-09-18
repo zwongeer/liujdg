@@ -22,7 +22,7 @@ struct LProcess_container {
     LProcess_container();
     LProcess_container(const std::string& str, int lim = 3, const std::string& currentDir = ".");
     LProcess_container(const LProcess_container&) = delete;
-    LProcess_container(LProcess_container&& );
+    LProcess_container(LProcess_container&&);
     LProcess_container& operator = (LProcess_container&&);
     
     void writeTo(std::string_view sv);

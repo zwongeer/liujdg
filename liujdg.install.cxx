@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+#include <boost/filesystem.hpp>
+
 std::string script = R"attack204(
 #!/usr/bin/bash
 if [ `whoami` = "root" ];then
@@ -17,6 +19,9 @@ fi
 )attack204";
 int main(int argc, char const *argv[])
 {
+    auto path = boost::filesystem::system_complete(argv[0]).parent_path();
+    boost::filesystem::current_path(path);
+    std::cout << "Set current path to `" << path.c_str() << "`" << std::endl;
     std::ofstream out("install.sh");
     if (!out) {
         std::cerr << "Cannot generate the install.sh" << std::endl;
