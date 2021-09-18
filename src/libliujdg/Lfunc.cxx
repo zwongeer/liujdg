@@ -58,9 +58,11 @@ std::string LreadFile(std::istream& in, size_t len) {
 
 std::optional<std::string> LgetFilePath(const std::string& file) {
     namespace fs = std::filesystem;
+    std::optional<std::string> ret{};
     if (fs::exists(file) && fs::status(file).type() != fs::file_type::directory)
-        return fs::path(file).parent_path().string();
-    return {};
+        ret = fs::path(file).parent_path().string();
+    if (ret.has_value() && ret.value() == "") ret = ".";
+    return ret;
 }
 
 std::string_view LgetCommand(const char* command) {

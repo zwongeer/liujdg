@@ -18,6 +18,7 @@ int main(int argc, char const *argv[]) {
     }
     std::ofstream errorLogFile(liujdg::NULLFILE);
     
+    std::error_code ec;
     bool useStdin = strcmp(argv[1], "-") == 0;
     std::ifstream fin;
     if (!useStdin)
@@ -30,12 +31,14 @@ int main(int argc, char const *argv[]) {
         LfuncInit();
         if (!useStdin) {
             auto path = LgetFilePath(argv[1]);
-            if (path.has_value()) std::filesystem::current_path(path.value().c_str());
+            if (path.has_value()) std::filesystem::current_path(path.value().c_str(), ec);
+            if (ec) throw std::runtime_error(LINFO + "Unable to set current dir `" + path.value().c_str() + "`");
         }
         std::string str = LreadFile(in);
         LGameInfo info;
         info.fromString(str);
-        fs::current_path(info.config.basedir);
+        fs::current_path(info.config.basedir, ec);
+        if (ec) throw std::runtime_error(LINFO + "Unable to set current dir `" + info.config.basedir + "`");
         pgame = std::make_shared<LGame>();
         pgame->fromString(str);
         pgame->init();
