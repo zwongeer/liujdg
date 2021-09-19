@@ -78,8 +78,9 @@ std::optional<int> LProcess::getReturnValue() {
 void LProcess::kill() {
     stderr_.tie(nullptr);
     stdout_.tie(nullptr);
-    pstdin_->close();
-    pstdin_ = std::make_unique<boost::process::opstream>();
+    // if (isRunning()) pstdin_->close();
+    // pstdin_ = std::make_unique<boost::process::opstream>();
+    pstdin_->pipe().close();
     std::error_code ec;
     c.terminate(ec);
 }
