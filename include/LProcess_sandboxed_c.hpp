@@ -1,8 +1,8 @@
 #pragma once
 #include "LProcess_container.hpp"
 
-struct LProcess_sandboxed_c : LProcess_container {
-    static constexpr const char* const sandbox_options =
+namespace liujdg {
+    constexpr const char* const sandbox_options =
         "firejail --quiet "
         "--net=none "
         "--private-tmp "
@@ -12,10 +12,5 @@ struct LProcess_sandboxed_c : LProcess_container {
         "--rlimit-nofile=32 "
         "--rlimit-as=256m "
         "--rlimit-nproc=4 ";
-    virtual ~LProcess_sandboxed_c();
-    LProcess_sandboxed_c();
-    LProcess_sandboxed_c(const std::string& str, int lim = 3, const std::string& currentDir = ".", const std::string& whitelist = "/tmp");
-    LProcess_sandboxed_c(const LProcess_sandboxed_c&) = delete;
-    LProcess_sandboxed_c(LProcess_sandboxed_c&&);
-    LProcess_sandboxed_c& operator = (LProcess_sandboxed_c&&);
-};
+    extern LProcess_container create_sandboxed_container(const std::string& str, int lim = 3, const std::string& currentDir = ".", const std::string& whitelist = "/tmp");
+}

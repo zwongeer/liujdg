@@ -26,9 +26,14 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
     pstdin_ = std::make_unique<boost::process::opstream>();
     cwd = fs::current_path();
     fs::current_path(currentDir);
-    c = bp::child(command,
-        // boost::process::extend::on_setup = [&](auto & exec)->void{fs::current_path(currentDir);},
-        bp::std_in < *pstdin_, bp::std_out > stdout_, bp::std_err > stderr_);
+    try {
+        c = bp::child(command,
+            // boost::process::extend::on_setup = [&](auto & exec)->void{fs::current_path(currentDir);},
+            bp::std_in < *pstdin_, bp::std_out > stdout_, bp::std_err > stderr_);
+    } catch (std::exception& e) {
+        fs::current_path(cwd);
+        throw std::runtime_error(std::string("Failed to start `") + command + "`" + "what():" + e.what());
+    }
     fs::current_path(cwd);
     
     stdout_.tie(pstdin_.get());
@@ -36,8 +41,8 @@ LProcess::LProcess (const std::string& command, const std::string& currentDir) {
 }
 
 LProcess::~LProcess() {
+    this->kill();
     std::error_code ec;
-    c.terminate(ec);
     c.wait(ec);
 }
 
@@ -71,6 +76,10 @@ std::optional<int> LProcess::getReturnValue() {
 }
 
 void LProcess::kill() {
+    stderr_.tie(nullptr);
+    stdout_.tie(nullptr);
+    pstdin_->close();
+    pstdin_ = std::make_unique<boost::process::opstream>();
     std::error_code ec;
     c.terminate(ec);
 }

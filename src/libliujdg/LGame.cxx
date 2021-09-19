@@ -73,9 +73,11 @@ void LGame::run() {
     
     for (int i = 0; i < gameInfo.getPeopleNum(); ++i){
         #if LIUJDG_USESANDBOX
-        processes.push_back(LProcess_sandboxed_c(gameInfo.persons[i].run, gameInfo.config.timeLimit, gameInfo.persons[i].basedir, gameInfo.persons[i].folder));
+        processes.push_back(
+            liujdg::create_sandboxed_container(gameInfo.persons[i].run, gameInfo.config.timeLimit, gameInfo.persons[i].basedir, gameInfo.persons[i].folder)
+        );
         #else
-        processes.push_back(LProcess_container(gameInfo.persons[i].run, gameInfo.config.timeLimit, gameInfo.persons[i].basedir));
+        processes.emplace_back(gameInfo.persons[i].run, gameInfo.config.timeLimit, gameInfo.persons[i].basedir);
         #endif
     }
     

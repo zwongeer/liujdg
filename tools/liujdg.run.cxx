@@ -25,7 +25,7 @@ int main(int argc, char const *argv[]) {
         fin.open(argv[1]);
     std::istream& in = useStdin ? std::cin : fin;
 
-    std::shared_ptr<LGame> pgame;
+    std::unique_ptr<LGame> pgame;
     // load the config and launch the programs
     try {
         LfuncInit();
@@ -39,7 +39,7 @@ int main(int argc, char const *argv[]) {
         info.fromString(str);
         fs::current_path(info.config.basedir, ec);
         if (ec) throw std::runtime_error(LINFO + "Unable to set current dir `" + info.config.basedir + "`");
-        pgame = std::make_shared<LGame>();
+        pgame = std::make_unique<LGame>();
         pgame->fromString(str);
         pgame->init();
         std::ofstream out(fs::path(pgame->gameInfo.config.logdir) / "liujdg_run_log.txt", std::ios::out);

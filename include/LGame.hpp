@@ -21,11 +21,7 @@ struct LGame {
 
     LGameInfo gameInfo;
     LGameResult gameResult;
-    #if LIUJDG_USESANDBOX
-    std::vector<LProcess_sandboxed_c> processes;
-    #else
     std::vector<LProcess_container> processes;
-    #endif
     std::vector<std::ofstream> outFiles; // store the stdout of all processes
     std::ofstream judger_logFile;
     std::vector<int> peopleIndex; // random indexes for players

@@ -155,6 +155,9 @@ bool LProcess_container::wait_or_kill(int lim) {
 }
 
 LProcess_container::~LProcess_container(){
+    if (process != nullptr) process->kill();
+    for (auto p : eventList)
+        delete p;
     delete process;
 }
 
@@ -182,7 +185,7 @@ std::ostream& LProcess_container::getStdin() {
     // if (!isRunning()) throw std::runtime_error("LProcess_container is not running");
     // set bad bit instead of throw
     if (!isRunning())
-        process->getStdin().clear(std::ios::badbit);
+        return liujdg::devNull;
     return process->getStdin();
 }
 

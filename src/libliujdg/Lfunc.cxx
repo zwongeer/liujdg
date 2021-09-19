@@ -8,7 +8,8 @@
 #include "Lfunc.hpp"
 
 bool LcheckCommand(const std::string& command) {
-    return boost::process::search_path(command).empty();
+    // return !boost::process::search_path(command).empty();
+    return true;
 }
 
 bool LcheckDirectory(const std::string& path, std::string& errMessage) {
