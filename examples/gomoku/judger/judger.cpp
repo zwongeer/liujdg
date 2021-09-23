@@ -8,47 +8,57 @@ void init() {
   p[1].clear();
 }
 bool validate(int x, int y) {
-  if (x < 0 || x >= 19) return false;
-  if (y < 0 || y >= 19) return false;
+  if (x < 0 || x >= 19)
+    return false;
+  if (y < 0 || y >= 19)
+    return false;
   return board[x][y] == -1;
 }
 // 1: player 1 win | 2: player 2 win | -1: nobody win
 int checkWin() {
-  for (int i = 0; i < 15; ++ i) {
-    for (int j = 0; j < 15; ++ j) {
+  for (int i = 0; i < 15; ++i) {
+    for (int j = 0; j < 15; ++j) {
       int one, two;
       // [-]
       one = two = 0;
-      for (int k = 0; k < 5; ++ k) {
-        one += board[i][j+k] == 1;
-        two += board[i][j+k] == 2;
+      for (int k = 0; k < 5; ++k) {
+        one += board[i][j + k] == 1;
+        two += board[i][j + k] == 2;
       }
-      if (one == 5) return 1;
-      if (two == 5) return 2;
+      if (one == 5)
+        return 1;
+      if (two == 5)
+        return 2;
       // [|]
       one = two = 0;
-      for (int k = 0; k < 5; ++ k) {
-        one += board[i+k][j] == 1;
-        two += board[i+k][j] == 2;
+      for (int k = 0; k < 5; ++k) {
+        one += board[i + k][j] == 1;
+        two += board[i + k][j] == 2;
       }
-      if (one == 5) return 1;
-      if (two == 5) return 2;
+      if (one == 5)
+        return 1;
+      if (two == 5)
+        return 2;
       // [\]
       one = two = 0;
-      for (int k = 0; k < 5; ++ k) {
-        one += board[i+k][j+k] == 1;
-        two += board[i+k][j+k] == 2;
+      for (int k = 0; k < 5; ++k) {
+        one += board[i + k][j + k] == 1;
+        two += board[i + k][j + k] == 2;
       }
-      if (one == 5) return 1;
-      if (two == 5) return 2;
+      if (one == 5)
+        return 1;
+      if (two == 5)
+        return 2;
       // [/]
       one = two = 0;
-      for (int k = 0; k < 5; ++ k) {
-        one += board[i+4-k][j+k] == 1;
-        two += board[i+4-k][j+k] == 2;
+      for (int k = 0; k < 5; ++k) {
+        one += board[i + 4 - k][j + k] == 1;
+        two += board[i + 4 - k][j + k] == 2;
       }
-      if (one == 5) return 1;
-      if (two == 5) return 2;
+      if (one == 5)
+        return 1;
+      if (two == 5)
+        return 2;
     }
   }
   return -1;
@@ -59,16 +69,18 @@ inline int switchPlayer(int p) {
 }
 inline void winAndScore(int thewinner) {
   std::cout << "#win " << thewinner << std::endl;
-    // score the players
-    for (int i = 1; i <= 2; ++i) {
-      if (i == thewinner) std::cout << "1 ";
-      else std::cout << "0 ";
-    }
-    std::cout << std::endl;
-    // give comments(optional)
-    std::cout << "Good!" << std::endl;
+  // score the players
+  for (int i = 1; i <= 2; ++i) {
+    if (i == thewinner)
+      std::cout << "1 ";
+    else
+      std::cout << "0 ";
+  }
+  std::cout << std::endl;
+  // give comments(optional)
+  std::cout << "Good!" << std::endl;
 }
-int main(int argc, const char* argv[]) {
+int main(int argc, const char *argv[]) {
   init();
   int n = 0;
   std::string path;
@@ -88,6 +100,8 @@ int main(int argc, const char* argv[]) {
     std::cin >> playerId >> x >> y;
     // validate the operation
     if (!validate(x, y)) {
+      std::cout << "#log" << std::endl;
+      std::cout << nowplayer << " " << x << " " << y << std::endl;
       winAndScore(switchPlayer(nowplayer));
       return 0;
     }
@@ -98,6 +112,8 @@ int main(int argc, const char* argv[]) {
     // check if somebody wins
     int winner = checkWin();
     if (winner > -1) {
+      std::cout << "#log" << std::endl;
+      std::cout << nowplayer << " " << x << " " << y << std::endl;
       winAndScore(winner);
       return 0;
     }
@@ -114,11 +130,11 @@ int main(int argc, const char* argv[]) {
     // send message to another player
     std::cout << "#send " << switchPlayer(nowplayer) << std::endl;
     std::cout << nowplayer << " " << x << " " << y << std::endl;
-    
+
     // continue playing
     nowplayer = switchPlayer(nowplayer);
     std::cout << "#send " << nowplayer << std::endl;
-  	std::cout << nowplayer << std::endl;
+    std::cout << nowplayer << std::endl;
     std::cout << "#continue " << nowplayer << std::endl;
   }
 }
