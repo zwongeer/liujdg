@@ -8,7 +8,7 @@ namespace liujdg {
         "--private-tmp "
         "--private-dev "
         "--read-only=/ "
-        "--rlimit-fsize=16m "
+        "--rlimit-fsize=16777216 "
         "--rlimit-nofile=32 "
         "--rlimit-as=256m "
         "--rlimit-nproc=4 ";
