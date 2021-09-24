@@ -10,7 +10,7 @@ namespace liujdg {
         "--read-only=/ "
         "--rlimit-fsize=16777216 "
         "--rlimit-nofile=32 "
-        "--rlimit-as=256m "
+        "--rlimit-as=268435456 "
         "--rlimit-nproc=4 ";
     extern LProcess_container create_sandboxed_container(const std::string& str, int lim = 3, const std::string& currentDir = ".", const std::string& whitelist = "/tmp");
 }
