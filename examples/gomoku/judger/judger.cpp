@@ -16,7 +16,7 @@ bool validate(int x, int y) {
 }
 // 1: player 1 win | 2: player 2 win | -1: nobody win
 int checkWin() {
-  for (int i = 0; i < 15; ++i) {
+  for (int i = 0; i < 19; ++i) {
     for (int j = 0; j < 15; ++j) {
       int one, two;
       // [-]
@@ -29,8 +29,12 @@ int checkWin() {
         return 1;
       if (two == 5)
         return 2;
+    }
+  }
+  for (int i = 0; i < 15; ++i) {
+    for (int j = 0; j < 19; ++j) {
       // [|]
-      one = two = 0;
+      int one = 0, two = 0;
       for (int k = 0; k < 5; ++k) {
         one += board[i + k][j] == 1;
         two += board[i + k][j] == 2;
@@ -39,8 +43,12 @@ int checkWin() {
         return 1;
       if (two == 5)
         return 2;
+    }
+  }
+  for (int i = 0; i < 15; ++i) {
+    for (int j = 0; j < 15; ++j) {
       // [\]
-      one = two = 0;
+      int one = 0, two = 0;
       for (int k = 0; k < 5; ++k) {
         one += board[i + k][j + k] == 1;
         two += board[i + k][j + k] == 2;
@@ -98,10 +106,11 @@ int main(int argc, const char *argv[]) {
     int playerId;
     int x, y;
     std::cin >> playerId >> x >> y;
+    // log the step
+    std::cout << "#log" << std::endl;
+    std::cout << nowplayer << " " << x << " " << y << std::endl;
     // validate the operation
     if (!validate(x, y)) {
-      std::cout << "#log" << std::endl;
-      std::cout << nowplayer << " " << x << " " << y << std::endl;
       winAndScore(switchPlayer(nowplayer));
       return 0;
     }
@@ -112,8 +121,6 @@ int main(int argc, const char *argv[]) {
     // check if somebody wins
     int winner = checkWin();
     if (winner > -1) {
-      std::cout << "#log" << std::endl;
-      std::cout << nowplayer << " " << x << " " << y << std::endl;
       winAndScore(winner);
       return 0;
     }
@@ -123,9 +130,6 @@ int main(int argc, const char *argv[]) {
       std::cout << "0 0" << std::endl;
       return 0;
     }
-    // log the step
-    std::cout << "#log" << std::endl;
-    std::cout << nowplayer << " " << x << " " << y << std::endl;
 
     // send message to another player
     std::cout << "#send " << switchPlayer(nowplayer) << std::endl;
