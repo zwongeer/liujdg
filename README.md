@@ -33,7 +33,7 @@ yay -S soci
 
 - Windows (msys)
 ```bash
-pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-python mingw-w64-x86_64-fmt mingw-w64-x86_64-boost mingw-w64-x86_64-nlohmann-json mingw-w64-x86_64-rapidjson restinio mingw-w64-x86_64-soci
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-python mingw-w64-x86_64-fmt mingw-w64-x86_64-boost mingw-w64-x86_64-nlohmann-json mingw-w64-x86_64-rapidjson mingw-w64-x86_64-soci
 vcpkg install restinio:x64-mingw-static # 在普通的控制台
 ```
 
