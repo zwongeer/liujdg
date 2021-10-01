@@ -16,7 +16,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 if(WIN32)
-	add_compile_options("/std:c++17")
 	add_compile_options("-D_WIN32_WINNT=0x0601")
 endif()
 

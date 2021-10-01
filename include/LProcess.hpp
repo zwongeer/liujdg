@@ -6,6 +6,10 @@
 #include <string>
 #include <optional>
 
+// Win32 Boost::process bug
+#ifndef __kernel_entry
+    #define __kernel_entry
+#endif
 #include <boost/process.hpp>
 
 struct LProcess {

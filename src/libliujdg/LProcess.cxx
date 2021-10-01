@@ -10,8 +10,6 @@
 
 #include "Lfunc.hpp"
 #include "LProcess.hpp"
-
-#include <boost/process.hpp>
 // #include <boost/process/extend.hpp>
 
 LProcess::LProcess (const std::string& command, const std::string& currentDir) {

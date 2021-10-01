@@ -5,13 +5,11 @@
 
 ` 刘稼级`被用来运行`裁判`和`玩家`，关于`裁判`和`玩家`，参见[aioj.ac 帮助](https://aioj.ac/help) 
 
-
-
 ## 构建
 ```bash
 git clone https://github.com/zwongeer/liujdg.git && cd liujdg
 ```
-#### 安装依赖
+#### 安装依赖与构建
 
 - 沙盒支持（仅Linux）
 
@@ -33,18 +31,19 @@ sudo pacman -S boost cmake nlohmann-json rapidjson restinio
 yay -S soci
 ```
 
+- Windows (msys)
+```bash
+pacman -S mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-python mingw-w64-x86_64-fmt mingw-w64-x86_64-boost mingw-w64-x86_64-nlohmann-json mingw-w64-x86_64-rapidjson restinio mingw-w64-x86_64-soci
+vcpkg install restinio:x64-mingw-static # 在普通的控制台
+```
+
 考录到github在某片神奇的土地上访问较慢，如果你是在刘某人的VPS上构建，可以使用下面的命令，这样应该会快很多
 _(该仓库地址只能通过刘某人的VPS访问)_
+
 ```bash
 git clone https://cdn.aioj.ac/zwongeer/liujdg.git && cd liujdg
 ```
-
-```bash
-./configure
-cd build && make
-```
-
-也可以
+- Linux下构建
 
 ```
 ./configure
@@ -53,9 +52,12 @@ cd build && make
 
 `./mbuild.sh`在构建完成时会提示是否安装
 
-#### 系统
+- Windows(msys)下构建
 
-- 理论上Linux系列都可以使用
+```
+scripts/msys_configure.sh [vcpkg toolchain 路径] [vcpkg triplet]
+scripts/msys_build.sh
+```
 
 ## 安装
 
