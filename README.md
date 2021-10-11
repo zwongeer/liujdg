@@ -89,3 +89,5 @@ liujdg.uninstall
 [参考样例](examples/)
 
 [更新日志](CHANGELOG.md)
+
+_如果阁下觉得这里写的不够清楚，可以到这里查看更多<https://surl.win/learnmore>_
